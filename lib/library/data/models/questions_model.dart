@@ -7,7 +7,8 @@ class Question {
   String answer_1;
   String answer_2;
   String answer_3;
-  int difficulty;
+  int rightAnswer;
+  String difficulty;
 
   Question({
     this.level = 0,
@@ -16,7 +17,8 @@ class Question {
     this.answer_1 = '',
     this.answer_2 = '',
     this.answer_3 = '',
-    this.difficulty = 0,
+    this.rightAnswer = 0,
+    this.difficulty = '',
   });
 
   factory Question.fromMap(Map<String, dynamic> map, String id) {
@@ -27,7 +29,8 @@ class Question {
       answer_1: map['answer_1'] ?? '',
       answer_2: map['answer_2'] ?? '',
       answer_3: map['answer_3'] ?? '',
-      difficulty: map['difficulty'] ?? 0,
+      difficulty: map['difficulty'] ?? 'easy',
+      rightAnswer: map['rightAnswer'] ?? 0,
     );
   }
 
@@ -39,5 +42,6 @@ class Question {
     "answer_2": question.answer_2,
     "answer_3": question.answer_3,
     "difficulty": question.difficulty,
+    "rightAnswer": question.rightAnswer,
   };
 }

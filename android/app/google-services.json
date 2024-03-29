@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "623527884720",
+    "project_id": "library-treasure-hunt",
+    "storage_bucket": "library-treasure-hunt.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:623527884720:android:b858b3945b4fdd843bc875",
+        "android_client_info": {
+          "package_name": "com.example.library_treasure_hunt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCn3RwhGq2ktZAcWF8uevYnTPysMmiASBw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
