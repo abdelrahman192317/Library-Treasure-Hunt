@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:library_treasure_hunt/library/presentation/screens/level_screen/level_screen.dart';
 
 import '../../../bloc/questions/questions_bloc.dart';
 import '../../../core/global/global.dart';
@@ -19,7 +20,7 @@ class LevelCard extends StatelessWidget {
         MaterialPageRoute(
           builder: (context) => BlocProvider<QuestionsBloc>.value(
               value: questionsBloc,
-              child: Container()),
+              child: const LevelScreen()),
         ),
       ),
       child: Card(

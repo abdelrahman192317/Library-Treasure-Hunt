@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
 
 import '../levels/levels.dart';
 
@@ -54,7 +55,7 @@ class _HomeState extends State<Home> {
                   onPressed: () => Navigator.push(
                       context, MaterialPageRoute(builder: (context) => const Levels(),
                   )),
-                  child: const Text('سهل'),
+                  child:  Text('سهل',style: context.getThemeTextStyle().titleLarge),
                 ),
               ),
               SizedBox(height: size.height * 0.01),
@@ -68,7 +69,7 @@ class _HomeState extends State<Home> {
                   onPressed: () => Navigator.push(
                       context, MaterialPageRoute(builder: (context) => const Levels(),
                   )),
-                  child: const Text('متوسط'),
+                  child:  Text('متوسط',style: context.getThemeTextStyle().titleLarge),
                 ),
               ),
               SizedBox(height: size.height * 0.01),
@@ -82,7 +83,7 @@ class _HomeState extends State<Home> {
                   onPressed: () => Navigator.push(
                       context, MaterialPageRoute(builder: (context) => const Levels(),
                   )),
-                  child: const Text('صعب'),
+                  child:  Text('صعب',style: context.getThemeTextStyle().titleLarge),
                 ),
               ),
               SizedBox(height: size.height * 0.1),

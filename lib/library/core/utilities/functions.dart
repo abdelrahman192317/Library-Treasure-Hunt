@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
 ///calculate time for last update
 String calculateTimeDifference(DateTime dateTime) {
   Duration difference = DateTime.now().difference(dateTime);
@@ -17,5 +20,13 @@ String calculateTimeDifference(DateTime dateTime) {
     return '${difference.inMinutes} ${difference.inMinutes == 1 ? 'دقيقة' : 'دقائق'} ';
   } else {
     return 'قليل';
+  }
+}
+///
+extension ContextEx on BuildContext
+{
+  TextTheme getThemeTextStyle()
+  {
+    return Theme.of(this).textTheme;
   }
 }

@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final size = MediaQuery.of(context).size;
 
     return AnimatedSplashScreen(
-      duration: 100,
+      duration: 1500,
       splashIconSize: size.height,
       splash: Container(
         height: size.height,
