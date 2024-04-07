@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../data/models/questions_model.dart';
 
 class AddQuestion extends StatefulWidget {
-  const AddQuestion({Key? key}) : super(key: key);
+  const AddQuestion({super.key});
 
   @override
   State<AddQuestion> createState() => _AddQuestionState();
@@ -23,7 +23,6 @@ class _AddQuestionState extends State<AddQuestion> {
   final _answer_2Controller = TextEditingController();
   final _answer_3Controller = TextEditingController();
 
-  final List<int> _levelList = [];
   int _selectedLevel = 0;
 
   final List<String> _difficultyList = ['easy', 'middle', 'difficult'];
@@ -31,14 +30,6 @@ class _AddQuestionState extends State<AddQuestion> {
 
 
   bool _uploading = false;
-
-  @override
-  void initState() {
-    for(int i = 1; i < 11; i++){
-      _levelList.add(i);
-    }
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -95,6 +86,7 @@ class _AddQuestionState extends State<AddQuestion> {
 
                         //question
                         TextFormField(
+                          onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
                           controller: _questionController,
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(
@@ -118,6 +110,7 @@ class _AddQuestionState extends State<AddQuestion> {
 
                         //answer 1
                         TextFormField(
+                          onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
                           controller: _answer_1Controller,
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(
@@ -141,6 +134,7 @@ class _AddQuestionState extends State<AddQuestion> {
 
                         //answer 2
                         TextFormField(
+                          onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
                           controller: _answer_2Controller,
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(
@@ -164,6 +158,7 @@ class _AddQuestionState extends State<AddQuestion> {
 
                         //answer 3
                         TextFormField(
+                          onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
                           controller: _answer_3Controller,
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(
@@ -194,10 +189,11 @@ class _AddQuestionState extends State<AddQuestion> {
                                 height: size.height * 0.08,
                                 child: DropdownButton(
                                   value: _selectedLevel,
-                                  items: _levelList.map((i) => DropdownMenuItem(
-                                    value: i,
-                                    child: Text('Level $i'),
-                                  )).toList(),
+                                  items: List.generate(10, (index) => DropdownMenuItem(
+                                        value: index,
+                                        child: Text('Level $index')
+                                      ),
+                                  ),
                                   onChanged: (val){
                                     setState(() {
                                       _selectedLevel = val!;
@@ -206,7 +202,7 @@ class _AddQuestionState extends State<AddQuestion> {
                                 ),
                               ),
                             ),
-                            SizedBox(width: size.width * 0.03),
+                            SizedBox(width: size.width * 0.01),
                             Expanded(
                               child: SizedBox(
                                 height: size.height * 0.08,
@@ -229,12 +225,11 @@ class _AddQuestionState extends State<AddQuestion> {
                         SizedBox(height: size.height * 0.02),
 
 
-                        if (_errorMessage != null)
-                          Text(_errorMessage!,
-                              style: const TextStyle(color: Colors.red)),
-                        SizedBox(height: size.height * 0.02),
-
-                        SizedBox(height: size.height * 0.02),
+                        if (_errorMessage != null) Text(
+                            _errorMessage!,
+                            style: const TextStyle(color: Colors.red),
+                        ),
+                        SizedBox(height: size.height * 0.04),
 
                         //add or cancel
                         Row(

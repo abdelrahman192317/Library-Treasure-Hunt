@@ -1,5 +1,3 @@
-//enum Difficulty {easy, middle, difficult}
-
 class Question {
   int level;
   String questionId;

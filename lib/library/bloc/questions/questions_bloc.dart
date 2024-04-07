@@ -13,6 +13,7 @@ part 'questions_state.dart';
 class QuestionsBloc extends Bloc<QuestionsEvent, QuestionsState> {
   QuestionsBloc() : super(QuestionsInitial()) {
     on<FetchAllQuestionsEvent>(fetchAllQuestionsEvent);
+    on<CheckAnswerEvent>(checkAnswerEvent);
   }
 
   FutureOr<void> fetchAllQuestionsEvent(
@@ -25,7 +26,6 @@ class QuestionsBloc extends Bloc<QuestionsEvent, QuestionsState> {
           await QuestionsFirebaseManger.getQuestions();
 
       myQuestions = List.from(questions);
-      myQuestions = List.from(questions);
 
       emit(QuestionsFetchedSuccessfullyState());
     } catch (e) {
@@ -34,4 +34,22 @@ class QuestionsBloc extends Bloc<QuestionsEvent, QuestionsState> {
     }
 
   }
+
+  FutureOr<void> checkAnswerEvent(
+      CheckAnswerEvent event, Emitter<QuestionsState> emit) async {
+
+    emit(QuestionsLoadingState());
+
+    try {
+
+      //int count = sharedPreferences!.getInt('level 1') ?? 0;
+
+      emit(QuestionsFetchedSuccessfullyState());
+    } catch (e) {
+      emit(QuestionsErrorState(error: e.toString()));
+
+    }
+
+  }
+
 }
