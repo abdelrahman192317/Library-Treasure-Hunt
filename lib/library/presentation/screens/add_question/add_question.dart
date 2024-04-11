@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:library_treasure_hunt/library/core/utilities/colors.dart';
 
 import '../../../data/models/questions_model.dart';
 
@@ -15,6 +16,7 @@ class _AddQuestionState extends State<AddQuestion> {
   final _formKey = GlobalKey<FormState>();
 
   String? _errorMessage;
+   String _correctAnswer='first';
 
   bool categoriesSelected = false;
 
@@ -22,11 +24,14 @@ class _AddQuestionState extends State<AddQuestion> {
   final _answer_1Controller = TextEditingController();
   final _answer_2Controller = TextEditingController();
   final _answer_3Controller = TextEditingController();
+  final Question question=Question();
 
   int _selectedLevel = 0;
 
   final List<String> _difficultyList = ['easy', 'middle', 'difficult'];
+  final List<String> _answers = ['first', 'second', 'third'];
   String _selectedDifficulty = 'easy';
+  String _rightAnswer = '';
 
 
   bool _uploading = false;
@@ -183,11 +188,13 @@ class _AddQuestionState extends State<AddQuestion> {
 
                         // level + difficulty
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Expanded(
                               child: SizedBox(
                                 height: size.height * 0.08,
                                 child: DropdownButton(
+                                  dropdownColor: primary,
                                   value: _selectedLevel,
                                   items: List.generate(10, (index) => DropdownMenuItem(
                                         value: index,
@@ -207,6 +214,7 @@ class _AddQuestionState extends State<AddQuestion> {
                               child: SizedBox(
                                 height: size.height * 0.08,
                                 child: DropdownButton(
+                                  dropdownColor: primary,
                                   value: _selectedDifficulty,
                                   items: _difficultyList.map((i) => DropdownMenuItem(
                                     value: i,
@@ -218,6 +226,39 @@ class _AddQuestionState extends State<AddQuestion> {
                                     });
                                   },
                                 ),
+                              ),
+                            ),
+                            SizedBox(width: size.width * 0.01),
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  Text('right answer ',style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.green)),
+                                  SizedBox(
+                                    height: size.height * 0.08,
+                                    child: DropdownButton(
+                                      dropdownColor: primary,
+                                      value: _correctAnswer,
+                                      items: _answers.map((i) => DropdownMenuItem(
+                                        value: i,
+                                        child: Text(i),
+                                      )).toList(),
+                                      onChanged: (val){
+                                        setState(() {
+                                          if (val == 'first') {
+                                            _rightAnswer=_answer_1Controller.text;
+                                          }
+                                          if (val == 'second') {
+                                            _rightAnswer=_answer_2Controller.text;
+                                          }
+                                          if (val == 'third') {
+                                            _rightAnswer=_answer_3Controller.text;
+                                          }
+                                          _correctAnswer = val!;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
@@ -319,24 +360,46 @@ class _AddQuestionState extends State<AddQuestion> {
   Future uploadQuestion(BuildContext context) async {
 
     try {
+      if (_rightAnswer=='') {
+        setState(() {
+          _rightAnswer=_answer_1Controller.text;
+        });
+      }
+      var question=Question(
 
-      CollectionReference questionCollection =
-          FirebaseFirestore.instance.collection('Questions');
-
-
-      // Add the data to Firestore
-      DocumentReference questionDocRef = await questionCollection.add(Question(
-        level: _selectedLevel,
-        difficulty: _selectedDifficulty,
         question: _questionController.text,
         answer_1: _answer_1Controller.text,
         answer_2: _answer_2Controller.text,
         answer_3: _answer_3Controller.text,
-        rightAnswer: 0,
-      ));
+        rightAnswer: _rightAnswer,
 
-      await questionCollection.add(questionDocRef);
+      );
 
+      CollectionReference questionCollection =
+          FirebaseFirestore.instance.collection(_selectedDifficulty);
+
+      //add dummy value
+      await questionCollection
+          .doc('level $_selectedLevel').set({
+        "dummyField": "dummy value",
+      });
+
+      //add question
+       await questionCollection
+          .doc('level $_selectedLevel')
+          .collection('Questions')
+          .add(Question.toMap(question)).then((value)
+    {
+    value.update({
+      "questionId": value.id,
+    });
+
+    });
+      //remove dummy value
+       await questionCollection
+          .doc('level $_selectedLevel').update({
+        "dummyField": FieldValue.delete(),
+      });
 
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

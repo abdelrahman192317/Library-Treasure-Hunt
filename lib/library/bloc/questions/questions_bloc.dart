@@ -22,10 +22,11 @@ class QuestionsBloc extends Bloc<QuestionsEvent, QuestionsState> {
     emit(QuestionsLoadingState());
 
     try {
-      List<Question> questions =
-          await QuestionsFirebaseManger.getQuestions();
 
-      myQuestions = List.from(questions);
+          await QuestionsFirebaseManger.getLevels('easy');
+          await QuestionsFirebaseManger.getQuestionsForLevel('easy');
+
+
 
       emit(QuestionsFetchedSuccessfullyState());
     } catch (e) {
