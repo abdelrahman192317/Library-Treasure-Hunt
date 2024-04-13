@@ -1,5 +1,5 @@
 name: library_treasure_hunt
-description: A new Flutter project.
+description: Flutter project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
@@ -35,6 +35,8 @@ dependencies:
   flutter_svg: ^2.0.10+1
   google_fonts: 6.1.0
   shimmer: ^3.0.0
+  flutter_spinkit: ^5.2.1
+  fluttertoast: ^8.2.4
 
 dev_dependencies:
   flutter_test:

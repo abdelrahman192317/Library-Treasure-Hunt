@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../../bloc/connection/connection_bloc.dart';
@@ -23,7 +24,6 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     questionsBloc = QuestionsBloc();
-    questionsBloc.add(FetchAllQuestionsEvent());
   }
 
   @override
@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final size = MediaQuery.of(context).size;
 
     return AnimatedSplashScreen(
-      duration: 1500,
+      duration: 500,
       splashIconSize: size.height,
       splash: Container(
         height: size.height,
@@ -43,21 +43,25 @@ class _SplashScreenState extends State<SplashScreen> {
             colors: [background, canvas],
           ),
         ),
-        child: Hero(
-          tag: 'splash',
-          child: Image.asset(
-              'assets/images/logo.png',
-              width: size.width * 0.7,
-              height: size.height * 0.7,
-              alignment: Alignment.center,
-              fit: BoxFit.contain
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Hero(
+              tag: 'splash',
+              child: Image.asset('assets/images/logo.png', height: size.height * 0.8),
+            ),
+            SpinKitFadingCircle(
+              color: Theme.of(context).primaryColor,
+              size: size.height * 0.15,
+            ),
+          ],
         ),
       ),
       nextScreen: BlocProvider(
         create: (context) => ConnectionBloc()..add(InitialConnectionEvent()),
         child: BlocProvider(
-          create: (context) => questionsBloc,
+          create: (context) => questionsBloc..add(FetchAllQuestionsEvent()),
           child: const AddName(),
         ),
       ),

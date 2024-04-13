@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
 
-import '../question_screen/question_screen.dart';
+import '../../../core/global/global.dart';
+import '../../widgets/questions/question_card.dart';
 
 class LevelScreen extends StatelessWidget {
-  const LevelScreen({Key? key}) : super(key: key);
+  final int difficulty, level;
+
+  const LevelScreen({super.key, required this.difficulty, required this.level});
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
 
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -18,56 +22,25 @@ class LevelScreen extends StatelessWidget {
             backgroundColor: Colors.transparent,
             elevation: 0,
             actions: [
-              Row(
-                children: [
-                  const Text('20',style:TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700
-                  )),
-                  Image.asset('assets/images/key.png',width: 27,height: 27),
-                ],
-              ),
+              Text(
+                '${myAllSolvedQuestions[difficulty][level].length}',
+                style: context.getThemeTextStyle().titleMedium),
+              Image.asset('assets/images/key.png',height: size.height * 0.01),
             ],
-            title: const Text(
-              'المستوى الاول '
-            ),
+            title: Text('المستوى ${levels[level]}'),
             centerTitle: true,
           ),
           body: GridView.builder(
-            itemCount: 16,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
-                childAspectRatio: 104/101
-              ),
-              itemBuilder: (context, index) => const QuestionCard(),
+            itemCount: myAllQuestions.length,
+            padding: EdgeInsets.all(size.height * 0.005),
+            itemBuilder: (ctx, index) => QuestionCard(
+              difficulty: difficulty, level: level, question: index,
+            ),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+            ),
           ),
-
         ),
-      ),
-    );
-  }
-}
-
-class QuestionCard extends StatelessWidget {
-  const QuestionCard({
-    super.key,
-
-  });
-
-
-
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    bool isSolved=false;
-    return InkWell(
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const QuestionScreen(),));
-      },
-      child: Card(
-        child: isSolved?Center(child: Text('1',style: context.getThemeTextStyle().headlineLarge!.copyWith(color: Colors.white))):Center(child: Image.asset('assets/images/lock.png',height: size.width*.14,)),
       ),
     );
   }

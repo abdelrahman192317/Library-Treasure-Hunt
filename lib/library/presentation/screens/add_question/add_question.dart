@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:library_treasure_hunt/library/core/global/global.dart';
 import 'package:library_treasure_hunt/library/core/utilities/colors.dart';
 
 import '../../../data/models/questions_model.dart';
@@ -16,23 +17,18 @@ class _AddQuestionState extends State<AddQuestion> {
   final _formKey = GlobalKey<FormState>();
 
   String? _errorMessage;
-   String _correctAnswer='first';
-
-  bool categoriesSelected = false;
 
   final _questionController = TextEditingController();
+
   final _answer_1Controller = TextEditingController();
   final _answer_2Controller = TextEditingController();
   final _answer_3Controller = TextEditingController();
-  final Question question=Question();
+  final _answer_4Controller = TextEditingController();
 
-  int _selectedLevel = 0;
-
-  final List<String> _difficultyList = ['easy', 'middle', 'difficult'];
-  final List<String> _answers = ['first', 'second', 'third'];
-  String _selectedDifficulty = 'easy';
   String _rightAnswer = '';
 
+  String _selectedDifficulty = 'easy';
+  int _selectedLevel = 0;
 
   bool _uploading = false;
 
@@ -42,6 +38,7 @@ class _AddQuestionState extends State<AddQuestion> {
     _answer_1Controller.dispose();
     _answer_2Controller.dispose();
     _answer_3Controller.dispose();
+    _answer_4Controller.dispose();
     super.dispose();
   }
 
@@ -133,9 +130,7 @@ class _AddQuestionState extends State<AddQuestion> {
                               ? 'Please enter Answer 1'
                               : null,
                         ),
-                        SizedBox(
-                          height: size.height * 0.02,
-                        ),
+                        SizedBox(height: size.height * 0.02),
 
                         //answer 2
                         TextFormField(
@@ -157,9 +152,7 @@ class _AddQuestionState extends State<AddQuestion> {
                               ? 'Please enter Answer 2'
                               : null,
                         ),
-                        SizedBox(
-                          height: size.height * 0.02,
-                        ),
+                        SizedBox(height: size.height * 0.02),
 
                         //answer 3
                         TextFormField(
@@ -181,15 +174,58 @@ class _AddQuestionState extends State<AddQuestion> {
                               ? 'Please enter Answer 3'
                               : null,
                         ),
-                        SizedBox(
-                          height: size.height * 0.02,
+                        SizedBox(height: size.height * 0.02),
+
+                        //answer 4
+                        TextFormField(
+                          onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                          controller: _answer_4Controller,
+                          decoration: InputDecoration(
+                            border: const OutlineInputBorder(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(15))),
+                            labelText: 'Answer 4',
+                            labelStyle: Theme.of(context).textTheme.bodySmall,
+                            prefixIcon: Icon(
+                              Icons.question_answer,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                          keyboardType: TextInputType.name,
+                          validator: (value) => value == null || value.isEmpty
+                              ? 'Please enter Answer 4'
+                              : null,
                         ),
+                        SizedBox(height: size.height * 0.02),
 
 
                         // level + difficulty
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
+                            //difficulty
+                            Expanded(
+                              child: SizedBox(
+                                height: size.height * 0.08,
+                                child: DropdownButton(
+                                  dropdownColor: primary,
+                                  value: _selectedDifficulty,
+                                  items: difficulty.map((i) => DropdownMenuItem(
+                                    value: i,
+                                    child: Text(i),
+                                  )).toList(),
+                                  onChanged: (val){
+                                    setState(() {
+                                      _selectedDifficulty = val!;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+
+                            SizedBox(width: size.width * 0.01),
+
+                            //level
                             Expanded(
                               child: SizedBox(
                                 height: size.height * 0.08,
@@ -207,58 +243,6 @@ class _AddQuestionState extends State<AddQuestion> {
                                     });
                                   },
                                 ),
-                              ),
-                            ),
-                            SizedBox(width: size.width * 0.01),
-                            Expanded(
-                              child: SizedBox(
-                                height: size.height * 0.08,
-                                child: DropdownButton(
-                                  dropdownColor: primary,
-                                  value: _selectedDifficulty,
-                                  items: _difficultyList.map((i) => DropdownMenuItem(
-                                    value: i,
-                                    child: Text(i),
-                                  )).toList(),
-                                  onChanged: (val){
-                                    setState(() {
-                                      _selectedDifficulty = val!;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: size.width * 0.01),
-                            Expanded(
-                              child: Column(
-                                children: [
-                                  Text('right answer ',style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.green)),
-                                  SizedBox(
-                                    height: size.height * 0.08,
-                                    child: DropdownButton(
-                                      dropdownColor: primary,
-                                      value: _correctAnswer,
-                                      items: _answers.map((i) => DropdownMenuItem(
-                                        value: i,
-                                        child: Text(i),
-                                      )).toList(),
-                                      onChanged: (val){
-                                        setState(() {
-                                          if (val == 'first') {
-                                            _rightAnswer=_answer_1Controller.text;
-                                          }
-                                          if (val == 'second') {
-                                            _rightAnswer=_answer_2Controller.text;
-                                          }
-                                          if (val == 'third') {
-                                            _rightAnswer=_answer_3Controller.text;
-                                          }
-                                          _correctAnswer = val!;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ],
                               ),
                             ),
                           ],
@@ -360,46 +344,28 @@ class _AddQuestionState extends State<AddQuestion> {
   Future uploadQuestion(BuildContext context) async {
 
     try {
-      if (_rightAnswer=='') {
+      if (_rightAnswer == '') {
         setState(() {
-          _rightAnswer=_answer_1Controller.text;
+          _rightAnswer = _answer_1Controller.text;
         });
       }
-      var question=Question(
-
-        question: _questionController.text,
-        answer_1: _answer_1Controller.text,
-        answer_2: _answer_2Controller.text,
-        answer_3: _answer_3Controller.text,
-        rightAnswer: _rightAnswer,
-
-      );
 
       CollectionReference questionCollection =
           FirebaseFirestore.instance.collection(_selectedDifficulty);
 
-      //add dummy value
-      await questionCollection
-          .doc('level $_selectedLevel').set({
-        "dummyField": "dummy value",
-      });
-
       //add question
        await questionCollection
           .doc('level $_selectedLevel')
-          .collection('Questions')
-          .add(Question.toMap(question)).then((value)
-    {
-    value.update({
-      "questionId": value.id,
-    });
+          .collection('Questions/${myAllQuestions[difficulty.indexOf(_selectedDifficulty)][_selectedLevel].length}')
+          .add(Question.toMap(Question(
+             question: _questionController.text,
+             answer_1: _answer_1Controller.text,
+             answer_2: _answer_2Controller.text,
+             answer_3: _answer_3Controller.text,
+             answer_4: _answer_4Controller.text,
+             rightAnswer: _rightAnswer,
+       )));
 
-    });
-      //remove dummy value
-       await questionCollection
-          .doc('level $_selectedLevel').update({
-        "dummyField": FieldValue.delete(),
-      });
 
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -419,6 +385,7 @@ class _AddQuestionState extends State<AddQuestion> {
     _answer_1Controller.clear();
     _answer_2Controller.clear();
     _answer_3Controller.clear();
+    _answer_4Controller.clear();
 
     _errorMessage = null;
 

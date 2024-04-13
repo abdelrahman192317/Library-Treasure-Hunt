@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:library_treasure_hunt/library/core/global/global.dart';
 import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
 
+import '../add_question/add_question.dart';
 import '../levels/levels.dart';
 
 
@@ -32,11 +34,12 @@ class _HomeState extends State<Home> {
                 children: [
                   Image.asset('assets/images/welcome.png',width: size.width * 0.6),
                   const Spacer(),
-                  Image.asset('assets/images/heart.png', height: size.height * 0.03),
-                  SizedBox(width: size.width * 0.01,),
-                  Image.asset('assets/images/heart.png', height: size.height * 0.03),
-                  SizedBox(width: size.width * 0.01,),
-                  Image.asset('assets/images/heart.png', height: size.height * 0.03),
+                  ...List.generate(
+                    heartCount!, (index) => Padding(
+                      padding:  EdgeInsets.only(right: size.width * 0.01),
+                      child: Image.asset('assets/images/heart.png', height: size.height * 0.03),
+                    ),
+                  ),
                 ],
               ),
               const Spacer(),
@@ -53,7 +56,7 @@ class _HomeState extends State<Home> {
                     backgroundColor: Colors.green,
                   ),
                   onPressed: () => Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => const Levels(),
+                      context, MaterialPageRoute(builder: (context) => const Levels(difficulty: 0),
                   )),
                   child:  Text('سهل',style: context.getThemeTextStyle().titleLarge),
                 ),
@@ -67,7 +70,7 @@ class _HomeState extends State<Home> {
                     backgroundColor: Theme.of(context).canvasColor,
                   ),
                   onPressed: () => Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => const Levels(),
+                      context, MaterialPageRoute(builder: (context) => const Levels(difficulty: 1),
                   )),
                   child:  Text('متوسط',style: context.getThemeTextStyle().titleLarge),
                 ),
@@ -81,9 +84,24 @@ class _HomeState extends State<Home> {
                     backgroundColor: Theme.of(context).primaryColor,
                   ),
                   onPressed: () => Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => const Levels(),
+                      context, MaterialPageRoute(builder: (context) => const Levels(difficulty: 2),
                   )),
                   child:  Text('صعب',style: context.getThemeTextStyle().titleLarge),
+                ),
+              ),
+              SizedBox(height: size.height * 0.1),
+
+              SizedBox(
+                width: size.width,
+                height: size.height * 0.08,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).focusColor,
+                  ),
+                  onPressed: () => Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => const AddQuestion(),
+                  )),
+                  child:  Text('إضافة سؤال',style: context.getThemeTextStyle().titleLarge),
                 ),
               ),
               SizedBox(height: size.height * 0.1),

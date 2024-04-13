@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import '../../widgets/levels/level_card.dart';
 
 class Levels extends StatelessWidget {
-  const Levels({super.key});
+  final int difficulty;
+
+  const Levels({super.key, required this.difficulty});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class Levels extends StatelessWidget {
           itemCount: 10,
           itemBuilder: (context, index) => Padding(
               padding: EdgeInsets.symmetric(horizontal: size.height * 0.01),
-              child: const LevelCard(),
+              child: LevelCard(difficulty: difficulty, level: index),
             ),
         ),
       ),
