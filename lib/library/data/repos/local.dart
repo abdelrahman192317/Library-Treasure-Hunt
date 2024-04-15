@@ -1,5 +1,6 @@
-
 import 'dart:convert';
+
+import 'package:flutter/material.dart';
 
 import '../../core/global/global.dart';
 
@@ -15,7 +16,7 @@ class LocalManager{
 
   //heartCount
   static int? getHeartCount(){
-    return sharedPreferences!.getInt('heartCount');
+    return sharedPreferences!.getInt('heartCount') ?? 3;
   }
   static minusHeartCount(){
     if(heartCount! > 0){
@@ -31,31 +32,31 @@ class LocalManager{
   }
 
   //questions
-  static List<Map<String, String>> getSolvedQuestions(String difficulty){
-    List<String>? solvedQuestions =
-      sharedPreferences!.getStringList('${difficulty}SolvedQuestions');
-    return solvedQuestions!.map((questionsIdsMap) =>
-    json.decode(questionsIdsMap) as Map<String, String>).toList();
-  }
-
   static List<List<Map<int, String>>> getAllSolvedQuestions(){
     List<List<Map<int, String>>> allSolvedQuestions = [];
-    for( var dif in difficulty){
-      List<String>? solvedQuestions =
-      sharedPreferences!.getStringList('${dif}SolvedQuestions');
-      allSolvedQuestions
-        .add(
-        solvedQuestions!
-            .map((questionsIdsMap) =>
-              json.decode(questionsIdsMap) as Map<int, String>
-            ).toList()
-        );
+    List<Map<int, String>> solvedQuestions = [];
+
+    for(var dif in difficulty){
+      solvedQuestions = List.generate(10, (index) => {});
+
+      List<String>? reListOfString = sharedPreferences!.getStringList('${dif}SolvedQuestions');
+      debugPrint('solvedQuestions $dif: $reListOfString');
+
+      if(reListOfString != null){
+        for(var (index, string) in reListOfString.indexed){
+          solvedQuestions[index] = json.decode(string) as Map<int, String>;
+        }
+      }
+      debugPrint('solvedQuestions $dif: $solvedQuestions');
+      allSolvedQuestions.add(solvedQuestions);
     }
+
+    debugPrint('allSolvedQuestions: $allSolvedQuestions');
     return allSolvedQuestions;
   }
 
-  static updateSolvedQuestions(int difficulty){
-    sharedPreferences!.setStringList('${difficulty}SolvedQuestions',
-        myAllSolvedQuestions[difficulty].map((questionsIds) => json.encode(questionsIds)).toList());
+  static updateSolvedQuestions(int dif){
+    sharedPreferences!.setStringList('${difficulty[dif]}SolvedQuestions',
+        myAllSolvedQuestions[dif].map((questionsIdsMap) => json.encode(questionsIdsMap)).toList());
   }
 }

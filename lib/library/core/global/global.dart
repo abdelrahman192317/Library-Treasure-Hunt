@@ -12,8 +12,8 @@ List<String> difficulty = ['easy', 'middle', 'hard'];
 
 QuestionsBloc questionsBloc = QuestionsBloc();
 
-List<List<List<Question>>> myAllQuestions = [];
-List<List<Map<int, String>>> myAllSolvedQuestions = [];
+List<List<List<Question>>> myAllQuestions = [[],[],[]];
+List<List<Map<int, String>>> myAllSolvedQuestions = [[],[],[]];
 
 List<List<Question>> myEasyQuestions = [];
 List<List<String>> myEasySolvedQuestions = [];

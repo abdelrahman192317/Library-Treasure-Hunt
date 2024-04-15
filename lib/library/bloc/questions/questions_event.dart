@@ -11,6 +11,8 @@ class EditNameEvent extends QuestionsEvent {
 }
 class GetNameEvent extends QuestionsEvent {}
 
+class GetHeartCountEvent extends QuestionsEvent {}
+
 class SolvedAnswerEvent extends QuestionsEvent {
   final int difficulty, level, question;
   SolvedAnswerEvent({required this.difficulty, required this.level, required this.question});

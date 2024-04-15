@@ -15,33 +15,38 @@ class LevelCard extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
-    return GestureDetector(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => BlocProvider<QuestionsBloc>.value(
-              value: questionsBloc,
-              child: LevelScreen(difficulty: difficulty, level: level,)),
-        ),
-      ),
-      child: Card(
-        child: Padding(
-          padding: EdgeInsets.all(size.height * 0.01),
-          child: ListTile(
-            leading: Image.asset('assets/images/star.png', height: size.height * 0.05,),
-            title: Text('المستوى ${levels[level]}'),
-            trailing: level == 0 || myAllSolvedQuestions[difficulty][level - 1].length > 9 ?
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset('assets/images/openLock.png', height: size.height * 0.04,),
-                    Text('${myAllSolvedQuestions[difficulty][level].length}/10'),
-                  ],
-                ):
-            Image.asset('assets/images/lock.png', height: size.height * 0.05,),
+    return BlocBuilder<QuestionsBloc, QuestionsState>(
+      builder: (context, state) {
+        return GestureDetector(
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BlocProvider<QuestionsBloc>.value(
+                  value: questionsBloc,
+                  child: LevelScreen(difficulty: difficulty, level: level,)),
+            ),
           ),
-        ),
-      ),
+          child: Card(
+            child: Padding(
+              padding: EdgeInsets.all(size.height * 0.01),
+              child: ListTile(
+                leading: Image.asset('assets/images/star.png', height: size.height * 0.05,),
+                title: Text('المستوى ${levels[level]}'),
+                trailing: level == 0 || myAllSolvedQuestions[difficulty][level - 1].length > 9 ?
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset('assets/images/openLock.png', height: size.height * 0.04,),
+                        if(state.runtimeType == QuestionsFetchedSuccessfullyState)
+                          Text('${myAllSolvedQuestions[difficulty][level].length}/10'),
+                      ],
+                    ):
+                Image.asset('assets/images/lock.png', height: size.height * 0.05,),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

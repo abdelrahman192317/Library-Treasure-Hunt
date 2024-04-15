@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:library_treasure_hunt/library/core/global/global.dart';
 import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
 
 import '../../../bloc/questions/questions_bloc.dart';
@@ -7,12 +8,11 @@ import '../../../core/utilities/colors.dart';
 import '../dialogs/wrong_answer.dart';
 
 class AnswerCard extends StatelessWidget {
-  final String answer;
-  final String rightAnswer;
+  final int difficulty, level, question;
+  final String answer, rightAnswer;
   final bool isHelp;
-  final Color? color;
 
-  const AnswerCard({super.key, required this.answer, required this.rightAnswer, this.color, this.isHelp = false});
+  const AnswerCard({super.key, required this.answer, required this.rightAnswer, this.isHelp = false, required this.difficulty, required this.level, required this.question});
 
   @override
   Widget build(BuildContext context) {
@@ -24,17 +24,16 @@ class AnswerCard extends StatelessWidget {
         width: size.width,
         height: size.height * 0.08,
         child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              backgroundColor: color ?? canvas
-          ),
+          style: ElevatedButton.styleFrom(backgroundColor: isHelp? primary : canvas),
           onPressed: () {
             if(isHelp || answer != rightAnswer) {
-              RightAnswerDialog(rightAnswer: rightAnswer);
+              showDialog(context: context, builder: (_) => RightAnswerDialog(rightAnswer: rightAnswer));
             } else{
-              BlocProvider.of<QuestionsBloc>(context).add(SolvedAnswerEvent(
-                difficulty: 0, level: 0, question: 0
-              ));
-              Helper.toast(context, '♥إجابة صحيحة ');
+              // questionsBloc.add(SolvedAnswerEvent(
+              //   difficulty: difficulty, level: level, question: question
+              // ));
+              Helper.toast(context, 'إجابة صحيحة ♥');
+              Navigator.pop(context);
             }
           },
           child: Row(

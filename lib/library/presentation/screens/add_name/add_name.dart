@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../bloc/questions/questions_bloc.dart';
 import '../../../core/global/global.dart';
+import '../../../core/utilities/colors.dart';
 import '../../../core/utilities/functions.dart';
 import '../home/home.dart';
 
@@ -23,7 +24,6 @@ class _AddNameState extends State<AddName> {
 
   @override
   void initState() {
-    questionsBloc.add(GetNameEvent());
     _nameController = TextEditingController(text: name);
     editable = name == null? true : false;
     super.initState();
@@ -42,40 +42,42 @@ class _AddNameState extends State<AddName> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        body: SingleChildScrollView(
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: RadialGradient(
+              radius: 2,
+              colors: [canvas, background]
+            )
+          ),
           child: Padding(
             padding: EdgeInsets.all(size.height * 0.03),
             child: Form(
               key: _formKey,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Center(
                     child: Hero(
                       tag: 'splash',
                       child: SizedBox(
-                        width: size.width * 0.8,
-                        height: size.height * 0.3,
+                        width: size.width,
+                        height: size.height * 0.34,
                         child: Image.asset('assets/images/logo.png',),
                       ),
                     ),
                   ),
-                  SizedBox(height: size.height * 0.02),
 
                   Text('برجاء إدخال إسم المستخدم',
                   style: Theme.of(context).textTheme.titleMedium,),
-                  SizedBox(height: size.height * 0.02),
+                  SizedBox(height: size.height * 0.01),
 
                   Row(
-                    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Expanded(
                         flex: 5,
                         child: SizedBox(
-                          height: size.height * 0.08,
+                          height: size.height * 0.07,
                           child: TextFormField(
-                            onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
                             controller: _nameController,
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
@@ -94,7 +96,7 @@ class _AddNameState extends State<AddName> {
                       Expanded(
                         flex: 1,
                         child: SizedBox(
-                          height: size.height * 0.08,
+                          height: size.height * 0.07,
                           child: IconButton(
                             onPressed: () => setState(() {
                               editable = true;
@@ -105,20 +107,22 @@ class _AddNameState extends State<AddName> {
                       ),
                     ],
                   ),
-                  SizedBox(height: size.height * 0.03),
+                  SizedBox(height: size.height * 0.02),
 
                   SizedBox(
                     width: size.width,
-                    height: size.height * 0.08,
+                    height: size.height * 0.07,
                     child: ElevatedButton(
                       onPressed: () {
                         if(_formKey.currentState!.validate()){
                           BlocProvider.of<QuestionsBloc>(context)
                               .add(EditNameEvent(newName: _nameController.text));
-                          Helper.toast(context, 'تم تعديل الإسم');
+                          Helper.toast(context, 'مرحبا ${_nameController.text}');
                           Navigator.pushReplacement(
-                              context, MaterialPageRoute(builder: (context) => const Home(),
-                          ));
+                              context, MaterialPageRoute(builder: (context) => BlocProvider(
+                                create: (ctx) => questionsBloc,
+                                child: const Home(),
+                            )));
                         }
                       },
                       child: const Text('ابدأ اللعب'),

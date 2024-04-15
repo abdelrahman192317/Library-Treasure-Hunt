@@ -18,6 +18,8 @@ class QuestionsBloc extends Bloc<QuestionsEvent, QuestionsState> {
     on<EditNameEvent>(editNameEvent);
     on<GetNameEvent>(getNameEvent);
 
+    on<GetHeartCountEvent>(getHeartCountEvent);
+
     on<SolvedAnswerEvent>(solvedAnswerEvent);
 
     on<AddHeartCountEvent>(addHeartCountEvent);
@@ -49,6 +51,13 @@ class QuestionsBloc extends Bloc<QuestionsEvent, QuestionsState> {
       GetNameEvent event, Emitter<QuestionsState> emit) async {
     emit(QuestionsLoadingState());
     name = LocalManager.getName();
+    emit(QuestionsFetchedSuccessfullyState());
+  }
+
+  FutureOr<void> getHeartCountEvent(
+      GetHeartCountEvent event, Emitter<QuestionsState> emit) async {
+    emit(QuestionsLoadingState());
+    heartCount = LocalManager.getHeartCount();
     emit(QuestionsFetchedSuccessfullyState());
   }
 

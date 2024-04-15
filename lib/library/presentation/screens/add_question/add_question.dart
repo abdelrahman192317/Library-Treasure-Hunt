@@ -356,8 +356,9 @@ class _AddQuestionState extends State<AddQuestion> {
       //add question
        await questionCollection
           .doc('level $_selectedLevel')
-          .collection('Questions/${myAllQuestions[difficulty.indexOf(_selectedDifficulty)][_selectedLevel].length}')
-          .add(Question.toMap(Question(
+          .collection('Questions')
+          .doc('${myAllQuestions[difficulty.indexOf(_selectedDifficulty)][_selectedLevel].length}')
+          .set(Question.toMap(Question(
              question: _questionController.text,
              answer_1: _answer_1Controller.text,
              answer_2: _answer_2Controller.text,
@@ -370,7 +371,7 @@ class _AddQuestionState extends State<AddQuestion> {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Questions added successfully'),
+            content: Text('Question added successfully'),
           ),
         );
       }
