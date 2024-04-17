@@ -24,8 +24,7 @@ class _AddQuestionState extends State<AddQuestion> {
   final _answer_2Controller = TextEditingController();
   final _answer_3Controller = TextEditingController();
   final _answer_4Controller = TextEditingController();
-
-  String _rightAnswer = '';
+  TextEditingController _rightAnswerController = TextEditingController();
 
   String _selectedDifficulty = 'easy';
   int _selectedLevel = 0;
@@ -39,6 +38,7 @@ class _AddQuestionState extends State<AddQuestion> {
     _answer_2Controller.dispose();
     _answer_3Controller.dispose();
     _answer_4Controller.dispose();
+
     super.dispose();
   }
 
@@ -111,90 +111,166 @@ class _AddQuestionState extends State<AddQuestion> {
                         ),
 
                         //answer 1
-                        TextFormField(
-                          onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-                          controller: _answer_1Controller,
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(15))),
-                            labelText: 'Answer 1',
-                            labelStyle: Theme.of(context).textTheme.bodySmall,
-                            prefixIcon: Icon(
-                              Icons.question_answer,
-                              color: Theme.of(context).primaryColor,
+                        Row(
+                          children: [
+                            Expanded(
+                                flex: 1,
+                                child: Radio(
+                                  value: _answer_1Controller,
+                                  groupValue: _rightAnswerController,
+                                  onChanged: (value){
+                                    setState(() {
+                                      _rightAnswerController = value!;
+                                    });
+                                  },
+                                )
                             ),
-                          ),
-                          keyboardType: TextInputType.name,
-                          validator: (value) => value == null || value.isEmpty
-                              ? 'Please enter Answer 1'
-                              : null,
+                            Expanded(
+                              flex: 5,
+                              child: TextFormField(
+                                onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                                controller: _answer_1Controller,
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(15))),
+                                  labelText: 'Answer 1',
+                                  labelStyle: Theme.of(context).textTheme.bodySmall,
+                                  prefixIcon: Icon(
+                                    Icons.question_answer,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                ),
+                                keyboardType: TextInputType.name,
+                                validator: (value) => value == null || value.isEmpty
+                                    ? 'Please enter Answer 1'
+                                    : null,
+                              ),
+                            ),
+                          ],
                         ),
                         SizedBox(height: size.height * 0.02),
 
                         //answer 2
-                        TextFormField(
-                          onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-                          controller: _answer_2Controller,
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(15))),
-                            labelText: 'Answer 2',
-                            labelStyle: Theme.of(context).textTheme.bodySmall,
-                            prefixIcon: Icon(
-                              Icons.question_answer,
-                              color: Theme.of(context).primaryColor,
+                        Row(
+                          children: [
+                            Expanded(
+                                flex: 1,
+                                child: Radio(
+                                  value: _answer_2Controller,
+                                  groupValue: _rightAnswerController,
+                                  onChanged: (value){
+                                    setState(() {
+                                      _rightAnswerController = value!;
+                                    });
+                                  },
+                                )
                             ),
-                          ),
-                          keyboardType: TextInputType.name,
-                          validator: (value) => value == null || value.isEmpty
-                              ? 'Please enter Answer 2'
-                              : null,
+                            Expanded(
+                              flex: 5,
+                              child: TextFormField(
+                                onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                                controller: _answer_2Controller,
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(15))),
+                                  labelText: 'Answer 2',
+                                  labelStyle: Theme.of(context).textTheme.bodySmall,
+                                  prefixIcon: Icon(
+                                    Icons.question_answer,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                ),
+                                keyboardType: TextInputType.name,
+                                validator: (value) => value == null || value.isEmpty
+                                    ? 'Please enter Answer 2'
+                                    : null,
+                              ),
+                            ),
+                          ],
                         ),
                         SizedBox(height: size.height * 0.02),
 
                         //answer 3
-                        TextFormField(
-                          onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-                          controller: _answer_3Controller,
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(15))),
-                            labelText: 'Answer 3',
-                            labelStyle: Theme.of(context).textTheme.bodySmall,
-                            prefixIcon: Icon(
-                              Icons.question_answer,
-                              color: Theme.of(context).primaryColor,
+                        Row(
+                          children: [
+                            Expanded(
+                                flex: 1,
+                                child: Radio(
+                                  value: _answer_3Controller,
+                                  groupValue: _rightAnswerController,
+                                  onChanged: (value){
+                                    setState(() {
+                                      _rightAnswerController = value!;
+                                    });
+                                  },
+                                )
                             ),
-                          ),
-                          keyboardType: TextInputType.name,
-                          validator: (value) => value == null || value.isEmpty
-                              ? 'Please enter Answer 3'
-                              : null,
+                            Expanded(
+                              flex: 5,
+                              child: TextFormField(
+                                onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                                controller: _answer_3Controller,
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(15))),
+                                  labelText: 'Answer 3',
+                                  labelStyle: Theme.of(context).textTheme.bodySmall,
+                                  prefixIcon: Icon(
+                                    Icons.question_answer,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                ),
+                                keyboardType: TextInputType.name,
+                                validator: (value) => value == null || value.isEmpty
+                                    ? 'Please enter Answer 3'
+                                    : null,
+                              ),
+                            ),
+                          ],
                         ),
                         SizedBox(height: size.height * 0.02),
 
                         //answer 4
-                        TextFormField(
-                          onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-                          controller: _answer_4Controller,
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(15))),
-                            labelText: 'Answer 4',
-                            labelStyle: Theme.of(context).textTheme.bodySmall,
-                            prefixIcon: Icon(
-                              Icons.question_answer,
-                              color: Theme.of(context).primaryColor,
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Radio(
+                                value: _answer_4Controller,
+                                groupValue: _rightAnswerController,
+                                onChanged: (value){
+                                  setState(() {
+                                    _rightAnswerController = value!;
+                                  });
+                                },
+                              )
                             ),
-                          ),
-                          keyboardType: TextInputType.name,
-                          validator: (value) => value == null || value.isEmpty
-                              ? 'Please enter Answer 4'
-                              : null,
+                            Expanded(
+                              flex: 5,
+                              child: TextFormField(
+                                onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                                controller: _answer_4Controller,
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(15))),
+                                  labelText: 'Answer 4',
+                                  labelStyle: Theme.of(context).textTheme.bodySmall,
+                                  prefixIcon: Icon(
+                                    Icons.question_answer,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                ),
+                                keyboardType: TextInputType.name,
+                                validator: (value) => value == null || value.isEmpty
+                                    ? 'Please enter Answer 4'
+                                    : null,
+                              ),
+                            ),
+                          ],
                         ),
                         SizedBox(height: size.height * 0.02),
 
@@ -268,14 +344,10 @@ class _AddQuestionState extends State<AddQuestion> {
                                     height: size.height * 0.08,
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                                         elevation: 0,
-                                        backgroundColor:
-                                            Theme.of(context).focusColor,
-                                        foregroundColor:
-                                            Theme.of(context).primaryColor,
+                                        backgroundColor: Theme.of(context).focusColor,
+                                        foregroundColor: Theme.of(context).primaryColor,
                                       ),
                                       onPressed: () {
                                         Navigator.pop(context);
@@ -344,17 +416,12 @@ class _AddQuestionState extends State<AddQuestion> {
   Future uploadQuestion(BuildContext context) async {
 
     try {
-      if (_rightAnswer == '') {
-        setState(() {
-          _rightAnswer = _answer_1Controller.text;
-        });
-      }
 
       CollectionReference questionCollection =
           FirebaseFirestore.instance.collection(_selectedDifficulty);
 
       //add question
-       await questionCollection
+      await questionCollection
           .doc('level $_selectedLevel')
           .collection('Questions')
           .doc('${myAllQuestions[difficulty.indexOf(_selectedDifficulty)][_selectedLevel].length}')
@@ -364,15 +431,13 @@ class _AddQuestionState extends State<AddQuestion> {
              answer_2: _answer_2Controller.text,
              answer_3: _answer_3Controller.text,
              answer_4: _answer_4Controller.text,
-             rightAnswer: _rightAnswer,
-       )));
+             rightAnswer: _rightAnswerController.text
+      )));
 
 
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Question added successfully'),
-          ),
+          const SnackBar(content: Text('Question added successfully')),
         );
       }
       _clearFields();
@@ -387,6 +452,7 @@ class _AddQuestionState extends State<AddQuestion> {
     _answer_2Controller.clear();
     _answer_3Controller.clear();
     _answer_4Controller.clear();
+    _rightAnswerController.clear();
 
     _errorMessage = null;
 

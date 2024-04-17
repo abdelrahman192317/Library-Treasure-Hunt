@@ -18,11 +18,13 @@ class QuestionCard extends StatelessWidget {
       builder: (context, state) {
         return InkWell(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => BlocProvider<QuestionsBloc>.value(
-              value: questionsBloc,
+            if(question == 0 || !myAllQuestions[difficulty][level][question - 1].locked) {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => BlocProvider(
+                create: (ctx) => questionsBloc,
                 child: QuestionScreen(difficulty: difficulty,level: level, question: question,
                 q: myAllQuestions[difficulty][level][question]),
               )));
+            }
           },
           child: Card(
             child: state.runtimeType == QuestionsFetchedSuccessfullyState &&
@@ -32,7 +34,7 @@ class QuestionCard extends StatelessWidget {
                   '${question + 1}',
                   style: context.getThemeTextStyle().headlineLarge)
               ) :
-              Center(child: Image.asset('assets/images/lock.png', height: size.height * 0.1)),
+              Center(child: Image.asset('assets/images/lock.png', height: size.height * 0.08)),
           ),
         );
       },

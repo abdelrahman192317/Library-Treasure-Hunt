@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:library_treasure_hunt/library/bloc/questions/questions_bloc.dart';
 import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
 
+import '../../../bloc/questions/questions_bloc.dart';
 import '../../../core/global/global.dart';
+import '../../../core/utilities/colors.dart';
 import '../../../data/models/questions_model.dart';
 import '../../widgets/answers/answer_card.dart';
 
@@ -29,7 +30,7 @@ class QuestionScreen extends StatelessWidget {
                   Padding(
                     padding:  const EdgeInsets.all(8.0),
                     child: Row(
-                      children: List.generate( state.runtimeType == QuestionsFetchedSuccessfullyState?
+                      children: List.generate( state.runtimeType == HeartCountFetchedSuccessfullyState?
                         heartCount! : 3, (index) => Padding(
                         padding:  EdgeInsets.only(right:size.width * 0.01),
                         child: Image.asset('assets/images/heart.png', height: size.height * 0.03),
@@ -48,7 +49,7 @@ class QuestionScreen extends StatelessWidget {
                       height: size.height * 0.2,
                       width: size.width,
                       child: Card(
-                        //color: primary,
+                        color: primary,
                         child: Center(
                           child: FittedBox(
                             child: Text(

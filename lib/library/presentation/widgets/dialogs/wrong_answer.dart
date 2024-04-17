@@ -26,13 +26,13 @@ class RightAnswerDialog extends StatelessWidget {
             Text('الإجابة الصحيحة', style: Theme.of(context).textTheme.titleLarge),
             SizedBox(height: size.height * 0.02,),
 
-            Text(rightAnswer, style: Theme.of(context).textTheme.headlineMedium),
+            Text(rightAnswer, style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.green)),
             SizedBox(height: size.height * 0.02,),
 
             Padding(
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
               child: SizedBox(
-                  height: size.height * 0.08,
+                  height: size.height * 0.06,
                   child: ElevatedButton(
                     onPressed: () {
                       BlocProvider.of<QuestionsBloc>(context).add(MinusHeartCountEvent());

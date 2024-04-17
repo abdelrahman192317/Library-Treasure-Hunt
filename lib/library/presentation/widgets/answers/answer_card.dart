@@ -12,7 +12,8 @@ class AnswerCard extends StatelessWidget {
   final String answer, rightAnswer;
   final bool isHelp;
 
-  const AnswerCard({super.key, required this.answer, required this.rightAnswer, this.isHelp = false, required this.difficulty, required this.level, required this.question});
+  const AnswerCard({super.key, required this.answer, required this.rightAnswer, this.isHelp = false,
+    required this.difficulty, required this.level, required this.question});
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +28,12 @@ class AnswerCard extends StatelessWidget {
           style: ElevatedButton.styleFrom(backgroundColor: isHelp? primary : canvas),
           onPressed: () {
             if(isHelp || answer != rightAnswer) {
-              showDialog(context: context, builder: (_) => RightAnswerDialog(rightAnswer: rightAnswer));
+              showDialog(context: context, builder: (_) => RightAnswerDialog(rightAnswer: rightAnswer))
+                  .then((value) => Navigator.pop(context));
             } else{
-              // questionsBloc.add(SolvedAnswerEvent(
-              //   difficulty: difficulty, level: level, question: question
-              // ));
+              questionsBloc.add(SolvedAnswerEvent(
+                difficulty: difficulty, level: level, question: question
+              ));
               Helper.toast(context, 'إجابة صحيحة ♥');
               Navigator.pop(context);
             }

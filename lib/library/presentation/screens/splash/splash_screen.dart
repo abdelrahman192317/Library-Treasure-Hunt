@@ -24,9 +24,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     questionsBloc = QuestionsBloc();
-    questionsBloc.add(GetHeartCountEvent());
     questionsBloc.add(GetNameEvent());
-    questionsBloc.add(FetchAllQuestionsEvent());
+    questionsBloc.add(GetHeartCountEvent());
   }
 
   @override
@@ -34,14 +33,14 @@ class _SplashScreenState extends State<SplashScreen> {
     final size = MediaQuery.of(context).size;
 
     return AnimatedSplashScreen(
-      duration: 800,
+      duration: 1000,
       splashIconSize: size.height,
       splash: Container(
         height: size.height,
         width: size.width,
         decoration: BoxDecoration(
           gradient: RadialGradient(
-            radius: 1.5,
+            radius: 1.2,
             colors: [canvas, background],
           ),
         ),
@@ -63,7 +62,7 @@ class _SplashScreenState extends State<SplashScreen> {
       nextScreen: BlocProvider(
         create: (context) => ConnectionBloc()..add(InitialConnectionEvent()),
         child: BlocProvider(
-          create: (context) => questionsBloc,
+          create: (context) => questionsBloc..add(FetchAllQuestionsEvent()),
           child: const AddName(),
         ),
       ),

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 import '../../core/global/global.dart';
@@ -30,35 +31,39 @@ class QuestionsBloc extends Bloc<QuestionsEvent, QuestionsState> {
       FetchAllQuestionsEvent event, Emitter<QuestionsState> emit) async {
 
     emit(QuestionsLoadingState());
+    debugPrint('QuestionsLoadingState');
     try {
       myAllSolvedQuestions = LocalManager.getAllSolvedQuestions();
       myAllQuestions = await QuestionsFirebaseManger.getAllQuestions();
+      debugPrint('1');
 
       emit(QuestionsFetchedSuccessfullyState());
+      debugPrint('QuestionsFetchedSuccessfullyState');
     } catch (e) {
       emit(QuestionsErrorState(error: e.toString()));
+      debugPrint('QuestionsErrorState');
     }
   }
 
   FutureOr<void> editNameEvent(
       EditNameEvent event, Emitter<QuestionsState> emit) async {
-    emit(QuestionsLoadingState());
+    emit(NameLoadingState());
     name = event.newName;
     LocalManager.editName(name!);
-    emit(QuestionsFetchedSuccessfullyState());
+    emit(NameFetchedSuccessfullyState());
   }
   FutureOr<void> getNameEvent(
       GetNameEvent event, Emitter<QuestionsState> emit) async {
-    emit(QuestionsLoadingState());
+    emit(NameLoadingState());
     name = LocalManager.getName();
-    emit(QuestionsFetchedSuccessfullyState());
+    emit(NameFetchedSuccessfullyState());
   }
 
   FutureOr<void> getHeartCountEvent(
       GetHeartCountEvent event, Emitter<QuestionsState> emit) async {
-    emit(QuestionsLoadingState());
+    emit(HeartCountLoadingState());
     heartCount = LocalManager.getHeartCount();
-    emit(QuestionsFetchedSuccessfullyState());
+    emit(HeartCountFetchedSuccessfullyState());
   }
 
   FutureOr<void> solvedAnswerEvent(
@@ -82,15 +87,15 @@ class QuestionsBloc extends Bloc<QuestionsEvent, QuestionsState> {
 
   FutureOr<void> addHeartCountEvent(
       AddHeartCountEvent event, Emitter<QuestionsState> emit) async {
-    emit(QuestionsLoadingState());
+    emit(HeartCountLoadingState());
     LocalManager.addHeartCount();
-    emit(QuestionsFetchedSuccessfullyState());
+    emit(HeartCountFetchedSuccessfullyState());
   }
   FutureOr<void> minusHeartCountEvent(
       MinusHeartCountEvent event, Emitter<QuestionsState> emit) async {
-    emit(QuestionsLoadingState());
+    emit(HeartCountLoadingState());
     LocalManager.minusHeartCount();
-    emit(QuestionsFetchedSuccessfullyState());
+    emit(HeartCountFetchedSuccessfullyState());
   }
 
 }

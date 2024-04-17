@@ -18,14 +18,15 @@ class LevelCard extends StatelessWidget {
     return BlocBuilder<QuestionsBloc, QuestionsState>(
       builder: (context, state) {
         return GestureDetector(
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => BlocProvider<QuestionsBloc>.value(
-                  value: questionsBloc,
-                  child: LevelScreen(difficulty: difficulty, level: level,)),
-            ),
-          ),
+          onTap: () {
+            if(level == 0 || myAllSolvedQuestions[difficulty][level - 1].length > 9) {
+              Navigator.push(context, MaterialPageRoute(
+              builder: (context) => BlocProvider(
+                  create: (ctx) => questionsBloc,
+                  child: LevelScreen(difficulty: difficulty, level: level,)
+              )));
+            }
+          },
           child: Card(
             child: Padding(
               padding: EdgeInsets.all(size.height * 0.01),
@@ -38,7 +39,8 @@ class LevelCard extends StatelessWidget {
                       children: [
                         Image.asset('assets/images/openLock.png', height: size.height * 0.04,),
                         if(state.runtimeType == QuestionsFetchedSuccessfullyState)
-                          Text('${myAllSolvedQuestions[difficulty][level].length}/10'),
+                          Text('10/${myAllSolvedQuestions[difficulty][level].length}',
+                          style: Theme.of(context).textTheme.bodyLarge,),
                       ],
                     ):
                 Image.asset('assets/images/lock.png', height: size.height * 0.05,),

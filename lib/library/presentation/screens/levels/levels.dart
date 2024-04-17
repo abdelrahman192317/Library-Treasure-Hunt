@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../core/global/global.dart';
 import '../../widgets/levels/level_card.dart';
 
 class Levels extends StatelessWidget {
