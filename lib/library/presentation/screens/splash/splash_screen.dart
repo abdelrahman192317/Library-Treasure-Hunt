@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:library_treasure_hunt/library/bloc/values/values_bloc.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../../../bloc/connection/connection_bloc.dart';
 import '../../../bloc/questions/questions_bloc.dart';
 import '../../../core/global/global.dart';
 import '../../../core/utilities/colors.dart';
@@ -23,9 +23,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    valuesBloc = ValuesBloc();
+    valuesBloc.add(GetNameEvent());
+    valuesBloc.add(GetHeartCountEvent());
+
     questionsBloc = QuestionsBloc();
-    questionsBloc.add(GetNameEvent());
-    questionsBloc.add(GetHeartCountEvent());
+    questionsBloc.add(FetchAllQuestionsEvent());
   }
 
   @override
@@ -60,9 +63,9 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       ),
       nextScreen: BlocProvider(
-        create: (context) => ConnectionBloc()..add(InitialConnectionEvent()),
+        create: (context) => valuesBloc,
         child: BlocProvider(
-          create: (context) => questionsBloc..add(FetchAllQuestionsEvent()),
+          create: (context) => questionsBloc,
           child: const AddName(),
         ),
       ),

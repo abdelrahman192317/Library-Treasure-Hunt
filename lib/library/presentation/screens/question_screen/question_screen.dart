@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
 
-import '../../../bloc/questions/questions_bloc.dart';
+import '../../../bloc/values/values_bloc.dart';
 import '../../../core/global/global.dart';
 import '../../../core/utilities/colors.dart';
 import '../../../data/models/questions_model.dart';
@@ -18,7 +18,7 @@ class QuestionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return BlocBuilder<QuestionsBloc, QuestionsState>(
+    return BlocBuilder<ValuesBloc, ValuesState>(
       builder: (context, state) {
         return Directionality(
             textDirection: TextDirection.rtl,
@@ -30,7 +30,7 @@ class QuestionScreen extends StatelessWidget {
                   Padding(
                     padding:  const EdgeInsets.all(8.0),
                     child: Row(
-                      children: List.generate( state.runtimeType == HeartCountFetchedSuccessfullyState?
+                      children: List.generate( state.runtimeType == ValuesFetchedSuccessfullyState?
                         heartCount! : 3, (index) => Padding(
                         padding:  EdgeInsets.only(right:size.width * 0.01),
                         child: Image.asset('assets/images/heart.png', height: size.height * 0.03),

@@ -1,6 +1,7 @@
 import 'package:library_treasure_hunt/library/bloc/questions/questions_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../bloc/values/values_bloc.dart';
 import '../../data/models/questions_model.dart';
 
 SharedPreferences? sharedPreferences;
@@ -11,9 +12,10 @@ int? heartCount;
 List<String> difficulty = ['easy', 'middle', 'hard'];
 
 QuestionsBloc questionsBloc = QuestionsBloc();
+ValuesBloc valuesBloc = ValuesBloc();
 
 List<List<List<Question>>> myAllQuestions = [[],[],[]];
-List<List<Map<int, String>>> myAllSolvedQuestions = [[],[],[]];
+List<List<Map<String, String>>> myAllSolvedQuestions = [[],[],[]];
 
 List<List<Question>> myEasyQuestions = [];
 List<List<String>> myEasySolvedQuestions = [];

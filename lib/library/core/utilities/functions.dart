@@ -5,10 +5,9 @@ class Helper{
   static toast(BuildContext context ,String message){
     Fluttertoast.showToast(
         msg: message,
-        toastLength: Toast.LENGTH_LONG,
+        toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         backgroundColor: Theme.of(context).shadowColor,
-        //textColor: isRed? Colors.red : Theme.of(context).primaryColor,
         fontSize: Theme.of(context).textTheme.bodyMedium!.fontSize
     );
   }

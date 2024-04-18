@@ -53,7 +53,7 @@ class LevelScreen extends StatelessWidget {
               ))
             : Center(child: SpinKitFadingCircle(
               color: Theme.of(context).primaryColor,
-              size: size.height * 0.12,
+              size: size.height * 0.1,
             ),),
           ),
         );

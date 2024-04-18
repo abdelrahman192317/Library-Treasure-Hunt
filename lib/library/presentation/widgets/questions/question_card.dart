@@ -20,10 +20,12 @@ class QuestionCard extends StatelessWidget {
           onTap: () {
             if(question == 0 || !myAllQuestions[difficulty][level][question - 1].locked) {
               Navigator.push(context, MaterialPageRoute(builder: (context) => BlocProvider(
+                  create: (context) => valuesBloc,
+                  child: BlocProvider(
                 create: (ctx) => questionsBloc,
                 child: QuestionScreen(difficulty: difficulty,level: level, question: question,
                 q: myAllQuestions[difficulty][level][question]),
-              )));
+              ))));
             }
           },
           child: Card(

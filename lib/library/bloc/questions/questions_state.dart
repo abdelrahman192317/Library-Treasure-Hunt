@@ -11,9 +11,3 @@ class QuestionsErrorState extends QuestionsState {
   final String error;
   QuestionsErrorState({required this.error});
 }
-
-class NameLoadingState extends QuestionsState {}
-class NameFetchedSuccessfullyState extends QuestionsState {}
-
-class HeartCountLoadingState extends QuestionsState {}
-class HeartCountFetchedSuccessfullyState extends QuestionsState {}

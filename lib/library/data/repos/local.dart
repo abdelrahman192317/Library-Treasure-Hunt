@@ -32,31 +32,36 @@ class LocalManager{
   }
 
   //questions
-  static List<List<Map<int, String>>> getAllSolvedQuestions(){
-    List<List<Map<int, String>>> allSolvedQuestions = [];
-    List<Map<int, String>> solvedQuestions = [];
+  static List<List<Map<String, String>>> getAllSolvedQuestions(){
+    List<List<Map<String, String>>> allSolvedQuestions = [];
+    List<Map<String, String>> solvedQuestions = [];
 
     for(var dif in difficulty){
-      solvedQuestions = List.generate(10, (index) => {});
+      solvedQuestions = List.generate(10, (index) => <String, String>{});
 
       List<String>? reListOfString = sharedPreferences!.getStringList('${dif}SolvedQuestions');
-      debugPrint('solvedQuestions $dif: $reListOfString');
 
       if(reListOfString != null){
         for(var (index, string) in reListOfString.indexed){
-          solvedQuestions[index] = json.decode(string) as Map<int, String>;
+          solvedQuestions[index] = fromDynamic(json.decode(string));
         }
       }
-      debugPrint('solvedQuestions $dif: $solvedQuestions');
       allSolvedQuestions.add(solvedQuestions);
     }
-
-    debugPrint('allSolvedQuestions: $allSolvedQuestions');
     return allSolvedQuestions;
   }
 
   static updateSolvedQuestions(int dif){
-    sharedPreferences!.setStringList('${difficulty[dif]}SolvedQuestions',
-        myAllSolvedQuestions[dif].map((questionsIdsMap) => json.encode(questionsIdsMap)).toList());
+    List<String> listOfMap = [];
+    for(var map in myAllSolvedQuestions[dif]) {
+      if(map.isNotEmpty)listOfMap.add(json.encode(map));
+    }
+    sharedPreferences!.setStringList('${difficulty[dif]}SolvedQuestions', listOfMap);
+  }
+
+  static Map<String,String> fromDynamic(Map<String, dynamic> map) {
+    Map<String,String> remap = {};
+    map.forEach((key, value) => remap[key] = value as String);
+    return remap;
   }
 }

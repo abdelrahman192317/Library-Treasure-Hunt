@@ -69,7 +69,7 @@ class QuestionsFirebaseManger {
                 Question.fromMap(
                   question.data() as Map<String, dynamic>,
                   question.id,
-                  !(myAllSolvedQuestions[i][j][int.parse(question.id)] == question.id)
+                  !(myAllSolvedQuestions[i][j][question.id] == question.id)
                 )
             );
           }

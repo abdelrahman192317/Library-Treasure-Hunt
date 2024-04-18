@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
 
 import '../../../bloc/questions/questions_bloc.dart';
+import '../../../bloc/values/values_bloc.dart';
 
 
 
@@ -35,7 +36,7 @@ class RightAnswerDialog extends StatelessWidget {
                   height: size.height * 0.06,
                   child: ElevatedButton(
                     onPressed: () {
-                      BlocProvider.of<QuestionsBloc>(context).add(MinusHeartCountEvent());
+                      BlocProvider.of<ValuesBloc>(context).add(MinusHeartCountEvent());
                       Navigator.pop(context);
                     },
                     child: Text('حسناً', style: context.getThemeTextStyle().titleLarge,),
