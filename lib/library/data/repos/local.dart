@@ -1,7 +1,4 @@
 import 'dart:convert';
-
-import 'package:flutter/material.dart';
-
 import '../../core/global/global.dart';
 
 class LocalManager{
