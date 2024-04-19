@@ -4,13 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:library_treasure_hunt/library/bloc/values/values_bloc.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../../../bloc/questions/questions_bloc.dart';
-import '../../../core/global/global.dart';
-import '../../../core/utilities/colors.dart';
-import '../add_name/add_name.dart';
+import '../../bloc/questions/questions_bloc.dart';
+import '../../bloc/values/values_bloc.dart';
+import '../../core/global/global.dart';
+import '../../core/utilities/colors.dart';
+import 'home.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -66,7 +66,7 @@ class _SplashScreenState extends State<SplashScreen> {
         create: (context) => valuesBloc,
         child: BlocProvider(
           create: (context) => questionsBloc,
-          child: const AddName(),
+          child: const Home(),
         ),
       ),
       splashTransition: SplashTransition.fadeTransition,

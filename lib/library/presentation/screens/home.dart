@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:library_treasure_hunt/library/core/global/global.dart';
 import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
 
-import '../../../bloc/questions/questions_bloc.dart';
-import '../../../bloc/values/values_bloc.dart';
-import '../add_question/add_question.dart';
-import '../levels/levels.dart';
+import '../../bloc/questions/questions_bloc.dart';
+import '../../bloc/values/values_bloc.dart';
+import 'add_question/add_question.dart';
+import 'levels.dart';
 
 
 class Home extends StatefulWidget {
@@ -63,63 +63,18 @@ class _HomeState extends State<Home> {
                             ],
                           ),
                         ),
-                        //const Spacer(),
                         SizedBox(height: size.height * 0.2),
 
                         Text('برجاء إختيار مستوي الصعوبة',
                           style: Theme.of(context).textTheme.titleLarge,),
                         SizedBox(height: size.height * 0.02),
 
-                        SizedBox(
-                          width: size.width,
-                          height: size.height * 0.08,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green,
-                            ),
-                            onPressed: () => Navigator.push(
-                                context, MaterialPageRoute(builder: (context) => BlocProvider(
-                              create: (context) => valuesBloc,
-                              child: BlocProvider(
-                                create: (ctx) => questionsBloc,
-                                child: const Levels(difficulty: 0),
-                              ),
-                            ))),
-                            child:  Text('سهل',style: context.getThemeTextStyle().titleLarge),
-                          ),
-                        ),
+                        _difficultyButton(size, 0, 'سهل', Colors.green),
                         SizedBox(height: size.height * 0.01),
-                        SizedBox(
-                          width: size.width,
-                          height: size.height * 0.08,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Theme.of(context).canvasColor,
-                            ),
-                            onPressed: () => Navigator.push(
-                                context, MaterialPageRoute(builder: (context) => BlocProvider<QuestionsBloc>.value(
-                              value: questionsBloc,
-                              child: const Levels(difficulty: 1),
-                            ))),
-                            child:  Text('متوسط',style: context.getThemeTextStyle().titleLarge),
-                          ),
-                        ),
+                        _difficultyButton(size, 1, 'متوسط', Theme.of(context).canvasColor),
                         SizedBox(height: size.height * 0.01),
-                        SizedBox(
-                          width: size.width,
-                          height: size.height * 0.08,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Theme.of(context).primaryColor,
-                            ),
-                            onPressed: () => Navigator.push(
-                                context, MaterialPageRoute(builder: (context) => BlocProvider<QuestionsBloc>.value(
-                              value: questionsBloc,
-                              child: const Levels(difficulty: 2),
-                            ))),
-                            child:  Text('صعب',style: context.getThemeTextStyle().titleLarge),
-                          ),
-                        ),
+                        _difficultyButton(size, 2, 'صعب', Theme.of(context).primaryColor),
+
                         SizedBox(height: size.height * 0.05),
 
                         SizedBox(
@@ -144,4 +99,31 @@ class _HomeState extends State<Home> {
       },
     );
   }
+
+  _navigate(int dif) => Navigator.push(
+      context, MaterialPageRoute(builder: (context) => BlocProvider<ValuesBloc>.value(
+        value: valuesBloc,
+        child: BlocProvider<QuestionsBloc>.value(
+          value: questionsBloc,
+          child: Levels(difficulty: dif),
+        ))));
+
+  Widget _difficultyButton(Size size, int dif, String text, Color color) => SizedBox(
+    width: size.width,
+    height: size.height * 0.08,
+    child: ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: color,
+      ),
+      onPressed: () {
+        if(heartCount! < 1) {
+          Helper.toast(context, 'ليس لديك قلوب');
+        } else {
+          _navigate(dif);
+        }
+      },
+      child:  Text(text,style: context.getThemeTextStyle().titleLarge),
+    ),
+  );
+
 }

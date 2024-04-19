@@ -20,11 +20,12 @@ class _AddQuestionState extends State<AddQuestion> {
 
   final _questionController = TextEditingController();
 
-  final _answer_1Controller = TextEditingController();
-  final _answer_2Controller = TextEditingController();
-  final _answer_3Controller = TextEditingController();
-  final _answer_4Controller = TextEditingController();
-  TextEditingController _rightAnswerController = TextEditingController();
+  final _answer_1Controller = TextEditingController(text: 'answer 1');
+  final _answer_2Controller = TextEditingController(text: 'answer 2');
+  final _answer_3Controller = TextEditingController(text: 'answer 3');
+  final _answer_4Controller = TextEditingController(text: 'answer 4');
+
+  String _rightAnswer = '';
 
   String _selectedDifficulty = 'easy';
   int _selectedLevel = 0;
@@ -116,11 +117,11 @@ class _AddQuestionState extends State<AddQuestion> {
                             Expanded(
                                 flex: 1,
                                 child: Radio(
-                                  value: _answer_1Controller,
-                                  groupValue: _rightAnswerController,
+                                  value: _answer_1Controller.text,
+                                  groupValue: _rightAnswer,
                                   onChanged: (value){
                                     setState(() {
-                                      _rightAnswerController = value!;
+                                      _rightAnswer = value!;
                                     });
                                   },
                                 )
@@ -157,11 +158,11 @@ class _AddQuestionState extends State<AddQuestion> {
                             Expanded(
                                 flex: 1,
                                 child: Radio(
-                                  value: _answer_2Controller,
-                                  groupValue: _rightAnswerController,
+                                  value: _answer_2Controller.text,
+                                  groupValue: _rightAnswer,
                                   onChanged: (value){
                                     setState(() {
-                                      _rightAnswerController = value!;
+                                      _rightAnswer = value!;
                                     });
                                   },
                                 )
@@ -198,11 +199,11 @@ class _AddQuestionState extends State<AddQuestion> {
                             Expanded(
                                 flex: 1,
                                 child: Radio(
-                                  value: _answer_3Controller,
-                                  groupValue: _rightAnswerController,
+                                  value: _answer_3Controller.text,
+                                  groupValue: _rightAnswer,
                                   onChanged: (value){
                                     setState(() {
-                                      _rightAnswerController = value!;
+                                      _rightAnswer = value!;
                                     });
                                   },
                                 )
@@ -239,11 +240,11 @@ class _AddQuestionState extends State<AddQuestion> {
                             Expanded(
                               flex: 1,
                               child: Radio(
-                                value: _answer_4Controller,
-                                groupValue: _rightAnswerController,
+                                value: _answer_4Controller.text,
+                                groupValue: _rightAnswer,
                                 onChanged: (value){
                                   setState(() {
-                                    _rightAnswerController = value!;
+                                    _rightAnswer = value!;
                                   });
                                 },
                               )
@@ -375,6 +376,11 @@ class _AddQuestionState extends State<AddQuestion> {
                                                 _errorMessage =
                                                     'please add data first';
                                               });
+                                            }else if (_rightAnswer == '') {
+                                              setState(() {
+                                                _errorMessage =
+                                                'please choose the right answer';
+                                              });
                                             } else {
                                               // Set `_uploading` to true before starting the upload
                                               setState(() {
@@ -431,9 +437,8 @@ class _AddQuestionState extends State<AddQuestion> {
              answer_2: _answer_2Controller.text,
              answer_3: _answer_3Controller.text,
              answer_4: _answer_4Controller.text,
-             rightAnswer: _rightAnswerController.text
+             rightAnswer: _rightAnswer
       )));
-
 
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -448,11 +453,8 @@ class _AddQuestionState extends State<AddQuestion> {
 
   void _clearFields() {
     _questionController.clear();
-    _answer_1Controller.clear();
-    _answer_2Controller.clear();
-    _answer_3Controller.clear();
-    _answer_4Controller.clear();
-    _rightAnswerController.clear();
+
+    _rightAnswer = '';
 
     _errorMessage = null;
 

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:library_treasure_hunt/library/bloc/questions/questions_bloc.dart';
+
 import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
 
-import '../../../core/global/global.dart';
-import '../../widgets/questions/question_card.dart';
+import '../../bloc/questions/questions_bloc.dart';
+import '../../core/global/global.dart';
+import '../widgets/question_card.dart';
 
 class LevelScreen extends StatelessWidget {
   final int difficulty, level;

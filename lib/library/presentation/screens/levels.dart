@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../widgets/levels/level_card.dart';
+import '../widgets/level_card.dart';
 
 class Levels extends StatelessWidget {
   final int difficulty;

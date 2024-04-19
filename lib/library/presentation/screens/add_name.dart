@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../bloc/values/values_bloc.dart';
-import '../../../core/global/global.dart';
-import '../../../core/utilities/colors.dart';
-import '../../../core/utilities/functions.dart';
-import '../home/home.dart';
+import '../../bloc/values/values_bloc.dart';
+import '../../core/global/global.dart';
+import '../../core/utilities/colors.dart';
+import '../../core/utilities/functions.dart';
+import 'home.dart';
 
 
 class AddName extends StatefulWidget {
@@ -42,13 +42,7 @@ class _AddNameState extends State<AddName> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        body: Container(
-          decoration: BoxDecoration(
-              gradient: RadialGradient(
-                  radius: 2,
-                  colors: [canvas, background]
-              )
-          ),
+        body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(size.height * 0.03),
             child: Form(
@@ -78,41 +72,32 @@ class _AddNameState extends State<AddName> {
                     children: [
                       Expanded(
                         flex: 5,
-                        child: SizedBox(
-                          height: size.height * 0.07,
-                          child: TextFormField(
-                            controller: _nameController,
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(15))),
-                              labelText: 'الإسم',
-                              labelStyle: Theme
-                                  .of(context)
-                                  .textTheme
-                                  .bodySmall,
+                        child: TextFormField(
+                          controller: _nameController,
+                          decoration: InputDecoration(
+                            border: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(15)),
                             ),
-                            enabled: editable,
-                            keyboardType: TextInputType.name,
-                            validator: (value) =>
-                            value == null || value.isEmpty
-                                ? 'برجاء ادخال الإسم'
-                                : null,
+                            labelText: 'الإسم',
+                            labelStyle: Theme.of(context).textTheme.bodySmall,
                           ),
+                          enabled: editable,
+                          keyboardType: TextInputType.name,
+                          validator: (value) =>
+                          value == null || value.isEmpty
+                              ? 'برجاء ادخال الإسم'
+                              : null,
                         ),
                       ),
                       if(name != null)
                         Expanded(
                           flex: 1,
-                          child: SizedBox(
-                            height: size.height * 0.07,
-                            child: IconButton(
-                              onPressed: () =>
-                                  setState(() {
-                                    editable = true;
-                                  }),
-                              icon: Icon(Icons.edit, color: primary),
-                            ),
+                          child: IconButton(
+                            onPressed: () =>
+                                setState(() {
+                                  editable = true;
+                                }),
+                            icon: Icon(Icons.edit, color: primary),
                           ),
                         ),
                     ],

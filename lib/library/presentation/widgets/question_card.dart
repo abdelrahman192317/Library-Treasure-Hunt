@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:library_treasure_hunt/library/bloc/questions/questions_bloc.dart';
-import 'package:library_treasure_hunt/library/core/global/global.dart';
+
 import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
 
-import '../../screens/question_screen/question_screen.dart';
+import '../../bloc/questions/questions_bloc.dart';
+import '../../bloc/values/values_bloc.dart';
+import '../../core/global/global.dart';
+import '../screens/question_screen.dart';
 
 class QuestionCard extends StatelessWidget {
   final int difficulty, level, question;
@@ -19,18 +22,15 @@ class QuestionCard extends StatelessWidget {
         return InkWell(
           onTap: () {
             if(question == 0 || !myAllQuestions[difficulty][level][question - 1].locked) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => BlocProvider(
-                  create: (context) => valuesBloc,
-                  child: BlocProvider(
-                create: (ctx) => questionsBloc,
-                child: QuestionScreen(difficulty: difficulty,level: level, question: question,
-                q: myAllQuestions[difficulty][level][question]),
-              ))));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => BlocProvider<ValuesBloc>.value(
+                value: valuesBloc,
+                  child: QuestionScreen(difficulty: difficulty,level: level, question: question,
+                      q: myAllQuestions[difficulty][level][question]),
+              )));
             }
           },
           child: Card(
-            child: state.runtimeType == QuestionsFetchedSuccessfullyState &&
-            (question == 0 || !myAllQuestions[difficulty][level][question - 1].locked) ?
+            child: question == 0 || !myAllQuestions[difficulty][level][question - 1].locked ?
               Center(
                 child: Text(
                   '${question + 1}',

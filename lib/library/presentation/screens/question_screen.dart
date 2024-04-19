@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
 
-import '../../../bloc/values/values_bloc.dart';
-import '../../../core/global/global.dart';
-import '../../../core/utilities/colors.dart';
-import '../../../data/models/questions_model.dart';
-import '../../widgets/answers/answer_card.dart';
+import '../../bloc/values/values_bloc.dart';
+import '../../core/global/global.dart';
+import '../../core/utilities/colors.dart';
+import '../../data/models/questions_model.dart';
+import '../widgets/answer_card.dart';
 
 
 class QuestionScreen extends StatelessWidget {
@@ -52,10 +52,7 @@ class QuestionScreen extends StatelessWidget {
                         color: primary,
                         child: Center(
                           child: FittedBox(
-                            child: Text(
-                              q.question,
-                              style: context.getThemeTextStyle().titleLarge,
-                            ),
+                            child: Text(q.question, style: context.getThemeTextStyle().titleLarge),
                           ),
                         ),
                       ),

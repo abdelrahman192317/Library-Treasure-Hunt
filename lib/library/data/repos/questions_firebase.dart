@@ -6,51 +6,6 @@ import '../models/questions_model.dart';
 
 class QuestionsFirebaseManger {
 
-  static Future<List<Question>> getQuestionsForLevel(String difficulty, String level) async {
-    QuerySnapshot questions;
-    try {
-      questions =
-          await FirebaseFirestore.instance
-              .collection(difficulty)
-              .doc(level)
-              .collection('Questions').get();
-
-      List<Question> questionsList = [];
-
-      for (var question in questions.docs) {
-        questionsList.add(Question.fromMap(question.data() as Map<String, dynamic>, question.id, false));
-      }
-
-     return questionsList;
-    } on FirebaseException {
-      throw Exception();
-    }
-  }
-
-  static Future<List<List<Question>>> getQuestionsForDifficulty(String difficulty) async {
-    QuerySnapshot questions;
-    try {
-
-      List<List<Question>> questionsMatrix = [];
-
-      for(var i = 1; i < 11; i++) {
-        questions =
-        await FirebaseFirestore.instance
-            .collection(difficulty)
-            .doc('level $i')
-            .collection('Questions').get();
-
-        for (var question in questions.docs) {
-
-          questionsMatrix[i - 1].add(Question.fromMap(question.data() as Map<String, dynamic>, question.id, false));
-        }
-      }
-     return questionsMatrix;
-    } on FirebaseException {
-      throw Exception();
-    }
-  }
-
   static Future<List<List<List<Question>>>> getAllQuestions() async {
     QuerySnapshot questions;
     try {

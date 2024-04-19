@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
-
-import '../../../bloc/values/values_bloc.dart';
-
-
 
 class RightAnswerDialog extends StatelessWidget {
   final String rightAnswer;
@@ -32,14 +28,12 @@ class RightAnswerDialog extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
               child: SizedBox(
-                  height: size.height * 0.06,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      BlocProvider.of<ValuesBloc>(context).add(MinusHeartCountEvent());
-                      Navigator.pop(context);
-                    },
-                    child: Text('حسناً', style: context.getThemeTextStyle().titleLarge,),
-                  )
+                width: size.width,
+                height: size.height * 0.06,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('حسناً', style: context.getThemeTextStyle().titleLarge,),
+                ),
               ),
             ),
           ],

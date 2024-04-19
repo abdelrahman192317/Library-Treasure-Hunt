@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:library_treasure_hunt/library/core/global/global.dart';
+
 import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
 
-import '../../../bloc/questions/questions_bloc.dart';
-import '../../../core/utilities/colors.dart';
-import '../dialogs/wrong_answer.dart';
+import '../../bloc/questions/questions_bloc.dart';
+import '../../bloc/values/values_bloc.dart';
+import '../../core/global/global.dart';
+import '../../core/utilities/colors.dart';
+import 'right_answer.dart';
 
 class AnswerCard extends StatelessWidget {
   final int difficulty, level, question;
@@ -27,8 +29,9 @@ class AnswerCard extends StatelessWidget {
           style: ElevatedButton.styleFrom(backgroundColor: isHelp? primary : canvas),
           onPressed: () {
             if(isHelp || answer != rightAnswer) {
-              showDialog(context: context, builder: (_) => RightAnswerDialog(rightAnswer: rightAnswer))
-                  .then((value) => Navigator.pop(context));
+              valuesBloc.add(MinusHeartCountEvent());
+              showDialog(context: context, builder: (c) => RightAnswerDialog(rightAnswer: rightAnswer)
+                ).then((value) => Navigator.pop(context));
             } else{
               questionsBloc.add(SolvedAnswerEvent(
                 difficulty: difficulty, level: level, question: question

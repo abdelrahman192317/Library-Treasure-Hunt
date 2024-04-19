@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../bloc/questions/questions_bloc.dart';
-import '../../../core/global/global.dart';
-import '../../screens/level_screen/level_screen.dart';
+import '../../bloc/questions/questions_bloc.dart';
+import '../../bloc/values/values_bloc.dart';
+import '../../core/global/global.dart';
+import '../screens/level_screen.dart';
 
 class LevelCard extends StatelessWidget {
   final int difficulty, level;
@@ -21,10 +22,13 @@ class LevelCard extends StatelessWidget {
           onTap: () {
             if(level == 0 || myAllSolvedQuestions[difficulty][level - 1].length > 9) {
               Navigator.push(context, MaterialPageRoute(
-              builder: (context) => BlocProvider(
-                  create: (ctx) => questionsBloc,
-                  child: LevelScreen(difficulty: difficulty, level: level,)
-              )));
+              builder: (context) => BlocProvider<ValuesBloc>.value(
+                value: valuesBloc,
+                  child: BlocProvider<QuestionsBloc>.value(
+                      value: questionsBloc,
+                      child: LevelScreen(difficulty: difficulty, level: level,)
+                  ),
+                )));
             }
           },
           child: Card(

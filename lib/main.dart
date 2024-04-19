@@ -7,7 +7,7 @@ import 'firebase_options.dart';
 import 'library/bloc/questions/questions_bloc.dart';
 import 'library/core/global/global.dart';
 import 'library/core/utilities/themes.dart';
-import 'library/presentation/screens/splash/splash_screen.dart';
+import 'library/presentation/screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

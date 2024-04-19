@@ -1,5 +1,5 @@
 # library_treasure_hunt
 
-A new Flutter project.
+A Flutter project.
 
 ## Getting Started
