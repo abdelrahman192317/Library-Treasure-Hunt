@@ -21,7 +21,9 @@ class QuestionCard extends StatelessWidget {
       builder: (context, state) {
         return InkWell(
           onTap: () {
-            if(question == 0 || !myAllQuestions[difficulty][level][question - 1].locked) {
+            if(heartCount! < 1) {
+              Helper.toast(context, 'ليس لديك قلوب');
+            } else if(question == 0 || !myAllQuestions[difficulty][level][question - 1].locked) {
               Navigator.push(context, MaterialPageRoute(builder: (context) => BlocProvider<ValuesBloc>.value(
                 value: valuesBloc,
                   child: QuestionScreen(difficulty: difficulty,level: level, question: question,
@@ -30,13 +32,13 @@ class QuestionCard extends StatelessWidget {
             }
           },
           child: Card(
-            child: question == 0 || !myAllQuestions[difficulty][level][question - 1].locked ?
-              Center(
-                child: Text(
-                  '${question + 1}',
-                  style: context.getThemeTextStyle().headlineLarge)
-              ) :
-              Center(child: Image.asset('assets/images/lock.png', height: size.height * 0.08)),
+            child: Center(
+              child: !myAllQuestions[difficulty][level][question].locked?
+                Icon(Icons.check, size: size.height * 0.06, color: Colors.green,)
+                : question == 0 || !myAllQuestions[difficulty][level][question - 1].locked ?
+                Text('${question + 1}', style: context.getThemeTextStyle().headlineLarge)
+                : Image.asset('assets/images/lock.png', height: size.height * 0.08),
+            )
           ),
         );
       },

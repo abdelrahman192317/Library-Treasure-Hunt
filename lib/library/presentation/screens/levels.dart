@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/utilities/colors.dart';
 import '../widgets/level_card.dart';
 
 class Levels extends StatelessWidget {
@@ -18,13 +19,22 @@ class Levels extends StatelessWidget {
           elevation: 0,
           backgroundColor: Colors.transparent,
         ),
-        body: ListView.builder(
-          padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
-          itemCount: 10,
-          itemBuilder: (context, index) => Padding(
-              padding: EdgeInsets.symmetric(horizontal: size.height * 0.01),
-              child: LevelCard(difficulty: difficulty, level: index),
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [background, primary],
             ),
+          ),
+          child: ListView.builder(
+            padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
+            itemCount: 10,
+            itemBuilder: (context, index) => Padding(
+                padding: EdgeInsets.symmetric(horizontal: size.height * 0.01),
+                child: LevelCard(difficulty: difficulty, level: index),
+              ),
+          ),
         ),
       ),
     );

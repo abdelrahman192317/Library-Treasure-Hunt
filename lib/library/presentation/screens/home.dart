@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:library_treasure_hunt/library/core/global/global.dart';
@@ -18,85 +20,78 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
+  late Timer timer;
+
+  @override
+  void initState() {
+    timer = Timer.periodic(const Duration(minutes: 10), (Timer t) => valuesBloc.add(AddHeartCountEvent()));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return BlocBuilder<ValuesBloc, ValuesState>(
-      builder: (context, state) {
-        return Directionality(
-            textDirection: TextDirection.rtl,
-            child: Scaffold(
-              body: RefreshIndicator(
-                onRefresh: () => Future.delayed(
-                    const Duration(milliseconds: 0),
-                        () => questionsBloc.add(FetchAllQuestionsEvent())),
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: Padding(
-                    padding: EdgeInsets.all(size.height * 0.03),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(height: size.height * 0.05),
-                        SizedBox(
-                          height: size.height * 0.15,
-                          child: Stack(
-                            children: [
-                              Align(
-                                  alignment: AlignmentDirectional.bottomStart,
-                                  child: Image.asset('assets/images/welcome.png',
-                                    width: size.width, fit: BoxFit.cover,
-                                  )
-                              ),
-                              Align(
-                                alignment: AlignmentDirectional.topEnd,
-                                child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: List.generate( state.runtimeType == ValuesFetchedSuccessfullyState?
-                                    heartCount! : 3, (index) => Padding(
-                                      padding:  EdgeInsets.only(right: size.width * 0.01),
-                                      child: Image.asset('assets/images/heart.png', height: size.height * 0.03),
-                                    ))),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: size.height * 0.2),
-
-                        Text('برجاء إختيار مستوي الصعوبة',
-                          style: Theme.of(context).textTheme.titleLarge,),
-                        SizedBox(height: size.height * 0.02),
-
-                        _difficultyButton(size, 0, 'سهل', Colors.green),
-                        SizedBox(height: size.height * 0.01),
-                        _difficultyButton(size, 1, 'متوسط', Theme.of(context).canvasColor),
-                        SizedBox(height: size.height * 0.01),
-                        _difficultyButton(size, 2, 'صعب', Theme.of(context).primaryColor),
-
-                        SizedBox(height: size.height * 0.05),
-
-                        SizedBox(
-                          width: size.width,
-                          height: size.height * 0.08,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                            onPressed: () => Navigator.push(
-                                context, MaterialPageRoute(builder: (context) => const AddQuestion(),
-                            )),
-                            child:  Text('إضافة سؤال',style: context.getThemeTextStyle().titleLarge),
-                          ),
-                        ),
-                        SizedBox(height: size.height * 0.05),
-                      ],
+    return Directionality(
+        textDirection: TextDirection.rtl,
+        child: Scaffold(
+          body: RefreshIndicator(
+            onRefresh: () => Future.delayed(
+                const Duration(milliseconds: 0),
+                    () => questionsBloc.add(FetchAllQuestionsEvent())),
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Padding(
+                padding: EdgeInsets.all(size.height * 0.03),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: size.height * 0.05),
+                    SizedBox(
+                      height: size.height * 0.28,
+                      child: Image.asset('assets/images/logo.png',
+                        width: size.width, fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
+                    SizedBox(height: size.height * 0.1),
+
+                    Text('إختر مستوي الاسئلة',
+                      style: Theme.of(context).textTheme.titleLarge,),
+                    SizedBox(height: size.height * 0.02),
+
+                    _difficultyButton(size, 0, 'سهل', Colors.green),
+                    SizedBox(height: size.height * 0.01),
+                    _difficultyButton(size, 1, 'متوسط', Theme.of(context).canvasColor),
+                    SizedBox(height: size.height * 0.01),
+                    _difficultyButton(size, 2, 'صعب', Theme.of(context).primaryColor),
+
+                    SizedBox(height: size.height * 0.05),
+
+                    SizedBox(
+                      width: size.width,
+                      height: size.height * 0.08,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                        onPressed: () => Navigator.push(
+                            context, MaterialPageRoute(builder: (context) => const AddQuestion(),
+                        )),
+                        child:  Text('إضافة سؤال',style: context.getThemeTextStyle().titleLarge),
+                      ),
+                    ),
+                    SizedBox(height: size.height * 0.05),
+                  ],
                 ),
               ),
-            )
-        );
-      },
+            ),
+          ),
+        )
     );
   }
 
@@ -115,13 +110,7 @@ class _HomeState extends State<Home> {
       style: ElevatedButton.styleFrom(
         backgroundColor: color,
       ),
-      onPressed: () {
-        if(heartCount! < 1) {
-          Helper.toast(context, 'ليس لديك قلوب');
-        } else {
-          _navigate(dif);
-        }
-      },
+      onPressed: () => _navigate(dif),
       child:  Text(text,style: context.getThemeTextStyle().titleLarge),
     ),
   );

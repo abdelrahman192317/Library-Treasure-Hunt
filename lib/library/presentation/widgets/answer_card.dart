@@ -8,13 +8,29 @@ import '../../core/global/global.dart';
 import '../../core/utilities/colors.dart';
 import 'right_answer.dart';
 
-class AnswerCard extends StatelessWidget {
+class AnswerCard extends StatefulWidget {
   final int difficulty, level, question;
   final String answer, rightAnswer;
-  final bool isHelp;
+  final bool isHelp, solved;
 
   const AnswerCard({super.key, required this.answer, required this.rightAnswer, this.isHelp = false,
-    required this.difficulty, required this.level, required this.question});
+    required this.difficulty, required this.level, required this.question,
+    this.solved = false});
+
+  @override
+  State<AnswerCard> createState() => _AnswerCardState();
+}
+
+class _AnswerCardState extends State<AnswerCard> {
+
+  bool _wrong = false;
+  bool _solved = false;
+
+  @override
+  void initState() {
+    _solved = widget.solved;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,29 +42,39 @@ class AnswerCard extends StatelessWidget {
         width: size.width,
         height: size.height * 0.08,
         child: ElevatedButton(
-          style: ElevatedButton.styleFrom(backgroundColor: isHelp? primary : canvas),
-          onPressed: () {
-            if(isHelp || answer != rightAnswer) {
+          style: ElevatedButton.styleFrom(
+              backgroundColor: _wrong? Colors.redAccent :
+              (_solved && widget.answer == widget.rightAnswer)? canvas
+                  : widget.isHelp? background : Colors.white
+          ),
+          onPressed: _solved? (){} : () {
+            if(widget.isHelp || widget.answer != widget.rightAnswer) {
               valuesBloc.add(MinusHeartCountEvent());
-              showDialog(context: context, builder: (c) => RightAnswerDialog(rightAnswer: rightAnswer)
-                ).then((value) => Navigator.pop(context));
+              setState(() => _wrong = true);
+              showDialog(context: context, builder: (c) => RightAnswerDialog(
+                  rightAnswer: widget.rightAnswer)).then((value) => Future.delayed(
+                      const Duration(seconds: 1), () => Navigator.pop(context)
+              ));
             } else{
               questionsBloc.add(SolvedAnswerEvent(
-                difficulty: difficulty, level: level, question: question
+                difficulty: widget.difficulty, level: widget.level, question: widget.question
               ));
-              Helper.toast(context, 'إجابة صحيحة ♥');
-              Navigator.pop(context);
+              setState(() => _solved = true);
+              Helper.toast(context, 'إجابــة صحيحـــة ♥');
+              Future.delayed(const Duration(seconds: 1), () => Navigator.pop(context));
             }
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if(isHelp)
+              if(widget.isHelp)
                 Image.asset('assets/images/help.png',height: size.height * 0.04),
               Padding(
                 padding: EdgeInsets.only(right: size.height * 0.02),
-                child: Text(answer,style: context.getThemeTextStyle().titleLarge,),
-              ),
+                child: Text(widget.answer,
+                  style: context.getThemeTextStyle().titleLarge!.copyWith(
+                      color: widget.isHelp? null : Colors.black
+                ))),
             ],
           ),
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:library_treasure_hunt/library/bloc/questions/questions_bloc.dart';
 import 'package:library_treasure_hunt/library/core/global/global.dart';
 import 'package:library_treasure_hunt/library/core/utilities/colors.dart';
 
@@ -20,10 +21,10 @@ class _AddQuestionState extends State<AddQuestion> {
 
   final _questionController = TextEditingController();
 
-  final _answer_1Controller = TextEditingController(text: 'answer 1');
-  final _answer_2Controller = TextEditingController(text: 'answer 2');
-  final _answer_3Controller = TextEditingController(text: 'answer 3');
-  final _answer_4Controller = TextEditingController(text: 'answer 4');
+  final _answer_1Controller = TextEditingController(text: '1');
+  final _answer_2Controller = TextEditingController(text: '2');
+  final _answer_3Controller = TextEditingController(text: '3');
+  final _answer_4Controller = TextEditingController(text: '4');
 
   String _rightAnswer = '';
 
@@ -439,6 +440,8 @@ class _AddQuestionState extends State<AddQuestion> {
              answer_4: _answer_4Controller.text,
              rightAnswer: _rightAnswer
       )));
+
+      questionsBloc.add(FetchAllQuestionsEvent());
 
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

@@ -51,56 +51,57 @@ class _AddNameState extends State<AddName> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Center(
-                    child: Hero(
-                      tag: 'splash',
-                      child: SizedBox(
-                        width: size.width,
-                        height: size.height * 0.34,
-                        child: Image.asset('assets/images/logo.png',),
+                    child: SizedBox(
+                      width: size.width,
+                      height: size.height * 0.4,
+                      child: Image.asset('assets/images/welcome.png'
                       ),
                     ),
                   ),
 
-                  Text('برجاء إدخال إسم المستخدم',
+                  Text('برجاء إدخال اسم المستخدم',
                     style: Theme
                         .of(context)
                         .textTheme
                         .titleLarge,),
                   SizedBox(height: size.height * 0.01),
 
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 5,
-                        child: TextFormField(
-                          controller: _nameController,
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(15)),
-                            ),
-                            labelText: 'الإسم',
-                            labelStyle: Theme.of(context).textTheme.bodySmall,
-                          ),
-                          enabled: editable,
-                          keyboardType: TextInputType.name,
-                          validator: (value) =>
-                          value == null || value.isEmpty
-                              ? 'برجاء ادخال الإسم'
-                              : null,
-                        ),
-                      ),
-                      if(name != null)
+                  SizedBox(
+                    height: size.height * 0.08,
+                    child: Row(
+                      children: [
                         Expanded(
-                          flex: 1,
-                          child: IconButton(
-                            onPressed: () =>
-                                setState(() {
-                                  editable = true;
-                                }),
-                            icon: Icon(Icons.edit, color: primary),
+                          flex: 5,
+                          child: TextFormField(
+                            controller: _nameController,
+                            decoration: InputDecoration(
+                              border: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(15)),
+                              ),
+                              labelText: 'الإسم',
+                              labelStyle: Theme.of(context).textTheme.bodySmall,
+                            ),
+                            enabled: editable,
+                            keyboardType: TextInputType.name,
+                            validator: (value) =>
+                            value == null || value.isEmpty
+                                ? 'برجاء ادخال الإسم'
+                                : null,
                           ),
                         ),
-                    ],
+                        if(name != null)
+                          Expanded(
+                            flex: 1,
+                            child: IconButton(
+                              onPressed: () =>
+                                  setState(() {
+                                    editable = true;
+                                  }),
+                              icon: Icon(Icons.edit, color: primary),
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
                   SizedBox(height: size.height * 0.02),
 
@@ -118,10 +119,10 @@ class _AddNameState extends State<AddName> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(builder: (context) =>
-                                  BlocProvider(
-                                    create: (context) => valuesBloc,
+                                  BlocProvider<ValuesBloc>.value(
+                                    value: valuesBloc,
                                     child: BlocProvider(
-                                      create: (ctx) => questionsBloc,
+                                      create: (context) => questionsBloc,
                                       child: const Home(),
                                     ),
                                   )));

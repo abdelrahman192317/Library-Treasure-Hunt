@@ -40,8 +40,15 @@ class QuestionScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              body: Padding(
-                padding:  EdgeInsets.symmetric(horizontal: size.width*25/430),
+              body: Container(
+                padding:  EdgeInsets.symmetric(horizontal: size.width * 0.05),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [background, primary],
+                  ),
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -49,10 +56,11 @@ class QuestionScreen extends StatelessWidget {
                       height: size.height * 0.2,
                       width: size.width,
                       child: Card(
-                        color: primary,
+                        color: Colors.white,
                         child: Center(
                           child: FittedBox(
-                            child: Text(q.question, style: context.getThemeTextStyle().titleLarge),
+                            child: Text(q.question,
+                                style: context.getThemeTextStyle().titleLarge!.copyWith(color: Colors.black)),
                           ),
                         ),
                       ),
@@ -60,16 +68,17 @@ class QuestionScreen extends StatelessWidget {
                     SizedBox(height: size.height* 0.05),
 
                     AnswerCard(answer: q.answer_1, rightAnswer: q.rightAnswer,
-                    difficulty: difficulty, level: level, question: question,),
+                    difficulty: difficulty, level: level, question: question, solved: !q.locked),
                     AnswerCard(answer: q.answer_2, rightAnswer: q.rightAnswer,
-                      difficulty: difficulty, level: level, question: question,),
+                      difficulty: difficulty, level: level, question: question, solved: !q.locked),
                     AnswerCard(answer: q.answer_3, rightAnswer: q.rightAnswer,
-                      difficulty: difficulty, level: level, question: question,),
+                      difficulty: difficulty, level: level, question: question, solved: !q.locked),
                     AnswerCard(answer: q.answer_4, rightAnswer: q.rightAnswer,
-                      difficulty: difficulty, level: level, question: question,),
+                      difficulty: difficulty, level: level, question: question, solved: !q.locked),
 
                     SizedBox(height: size.height * 0.05),
 
+                    if(q.locked)
                     AnswerCard(answer: 'مساعدة', rightAnswer: q.rightAnswer,
                       difficulty: difficulty, level: level, question: question, isHelp: true),
                   ],

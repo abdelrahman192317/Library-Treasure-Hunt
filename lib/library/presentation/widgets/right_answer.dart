@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
 
+import '../../core/utilities/colors.dart';
+
 class RightAnswerDialog extends StatelessWidget {
   final String rightAnswer;
 
@@ -13,16 +15,19 @@ class RightAnswerDialog extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return Dialog(
+      elevation: 8,
+      backgroundColor: canvas,
       child: Padding(
         padding: EdgeInsets.all(size.height * 0.02),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('الإجابة الصحيحة', style: Theme.of(context).textTheme.titleLarge),
+            Text('الإجابــة الصحيحـــة', style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white)),
             SizedBox(height: size.height * 0.02,),
 
-            Text(rightAnswer, style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.green)),
+            Text(rightAnswer,
+                style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white)),
             SizedBox(height: size.height * 0.02,),
 
             Padding(
@@ -32,7 +37,7 @@ class RightAnswerDialog extends StatelessWidget {
                 height: size.height * 0.06,
                 child: ElevatedButton(
                   onPressed: () => Navigator.pop(context),
-                  child: Text('حسناً', style: context.getThemeTextStyle().titleLarge,),
+                  child: Text('حسنــاً', style: context.getThemeTextStyle().titleLarge,),
                 ),
               ),
             ),

@@ -8,6 +8,7 @@ import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
 
 import '../../bloc/questions/questions_bloc.dart';
 import '../../core/global/global.dart';
+import '../../core/utilities/colors.dart';
 import '../widgets/question_card.dart';
 
 class LevelScreen extends StatelessWidget {
@@ -45,19 +46,28 @@ class LevelScreen extends StatelessWidget {
               title: Text('المستوى ${levels[level]}'),
               centerTitle: true,
             ),
-            body: state.runtimeType == QuestionsFetchedSuccessfullyState?
-            GridView.builder(
-              itemCount: myAllQuestions[difficulty][level].length,
-              padding: EdgeInsets.all(size.height * 0.005),
-              itemBuilder: (ctx1, index) => QuestionCard(
-                  difficulty: difficulty, level: level, question: index),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-              ))
-            : Center(child: SpinKitFadingCircle(
-              color: Theme.of(context).primaryColor,
-              size: size.height * 0.1,
-            ),),
+            body: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [background, primary],
+                ),
+              ),
+              child: state.runtimeType == QuestionsFetchedSuccessfullyState?
+                GridView.builder(
+                  itemCount: myAllQuestions[difficulty][level].length,
+                  padding: EdgeInsets.all(size.height * 0.005),
+                  itemBuilder: (ctx1, index) => QuestionCard(
+                      difficulty: difficulty, level: level, question: index),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                  ))
+                : Center(child: SpinKitFadingCircle(
+                color: Theme.of(context).primaryColor,
+                size: size.height * 0.1,
+              )),
+            )
           ),
         );
       },

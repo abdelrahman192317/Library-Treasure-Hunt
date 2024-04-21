@@ -10,7 +10,7 @@ import '../../bloc/questions/questions_bloc.dart';
 import '../../bloc/values/values_bloc.dart';
 import '../../core/global/global.dart';
 import '../../core/utilities/colors.dart';
-import 'home.dart';
+import 'add_name.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -42,9 +42,10 @@ class _SplashScreenState extends State<SplashScreen> {
         height: size.height,
         width: size.width,
         decoration: BoxDecoration(
-          gradient: RadialGradient(
-            radius: 1.2,
-            colors: [canvas, background],
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [background, primary],
           ),
         ),
         child: Column(
@@ -62,11 +63,11 @@ class _SplashScreenState extends State<SplashScreen> {
           ],
         ),
       ),
-      nextScreen: BlocProvider(
-        create: (context) => valuesBloc,
+      nextScreen: BlocProvider<ValuesBloc>.value(
+        value: valuesBloc,
         child: BlocProvider(
           create: (context) => questionsBloc,
-          child: const Home(),
+          child: const AddName(),
         ),
       ),
       splashTransition: SplashTransition.fadeTransition,
