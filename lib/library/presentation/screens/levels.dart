@@ -17,14 +17,14 @@ class Levels extends StatelessWidget {
           title: const Text('المستويات'),
           centerTitle: true,
           elevation: 0,
-          backgroundColor: Colors.transparent,
+          backgroundColor: top,
         ),
         body: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [background, primary],
+              colors: [top, bottom],
             ),
           ),
           child: ListView.builder(

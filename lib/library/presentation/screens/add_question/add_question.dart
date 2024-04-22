@@ -78,7 +78,7 @@ class _AddQuestionState extends State<AddQuestion> {
                       children: [
                         SizedBox(height: size.height * 0.02),
 
-                        Text('Adding Restaurant',
+                        Text('Adding Question',
                             style: Theme.of(context).textTheme.titleLarge),
                         SizedBox(height: size.height * 0.01),
 
@@ -312,7 +312,7 @@ class _AddQuestionState extends State<AddQuestion> {
                                   value: _selectedLevel,
                                   items: List.generate(10, (index) => DropdownMenuItem(
                                         value: index,
-                                        child: Text('Level $index')
+                                        child: Text('Level ${index + 1}')
                                       ),
                                   ),
                                   onChanged: (val){

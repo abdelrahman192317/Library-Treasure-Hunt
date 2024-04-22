@@ -48,13 +48,23 @@ class _AnswerCardState extends State<AnswerCard> {
                   : widget.isHelp? background : Colors.white
           ),
           onPressed: _solved? (){} : () {
-            if(widget.isHelp || widget.answer != widget.rightAnswer) {
+            if(widget.isHelp) {
+              questionsBloc.add(SolvedAnswerEvent(
+                  difficulty: widget.difficulty, level: widget.level, question: widget.question
+              ));
+
+              showDialog(context: context, builder: (c) => RightAnswerDialog(
+                  rightAnswer: widget.rightAnswer)).then((value) {
+                    valuesBloc.add(MinusHeartCountEvent());
+                    Navigator.pop(context);
+                  });
+
+            } else if(widget.answer != widget.rightAnswer) {
               valuesBloc.add(MinusHeartCountEvent());
               setState(() => _wrong = true);
               showDialog(context: context, builder: (c) => RightAnswerDialog(
-                  rightAnswer: widget.rightAnswer)).then((value) => Future.delayed(
-                      const Duration(seconds: 1), () => Navigator.pop(context)
-              ));
+                  rightAnswer: widget.rightAnswer)).then((value) => Navigator.pop(context));
+
             } else{
               questionsBloc.add(SolvedAnswerEvent(
                 difficulty: widget.difficulty, level: widget.level, question: widget.question

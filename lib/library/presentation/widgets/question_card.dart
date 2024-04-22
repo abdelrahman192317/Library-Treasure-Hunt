@@ -21,7 +21,7 @@ class QuestionCard extends StatelessWidget {
       builder: (context, state) {
         return InkWell(
           onTap: () {
-            if(heartCount! < 1) {
+            if(heartCount! < 1 && myAllQuestions[difficulty][level][question].locked) {
               Helper.toast(context, 'ليس لديك قلوب');
             } else if(question == 0 || !myAllQuestions[difficulty][level][question - 1].locked) {
               Navigator.push(context, MaterialPageRoute(builder: (context) => BlocProvider<ValuesBloc>.value(

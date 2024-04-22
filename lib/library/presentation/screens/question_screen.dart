@@ -6,6 +6,7 @@ import '../../bloc/values/values_bloc.dart';
 import '../../core/global/global.dart';
 import '../../core/utilities/colors.dart';
 import '../../data/models/questions_model.dart';
+import '../widgets/ad_space.dart';
 import '../widgets/answer_card.dart';
 
 
@@ -25,17 +26,28 @@ class QuestionScreen extends StatelessWidget {
             child: Scaffold(
               appBar: AppBar(
                 elevation: 0,
-                backgroundColor: Colors.transparent,
+                backgroundColor: top,
                 actions: [
                   Padding(
-                    padding:  const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(size.width * 0.02),
                     child: Row(
-                      children: List.generate( state.runtimeType == ValuesFetchedSuccessfullyState?
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if(state.runtimeType == ValuesFetchedSuccessfullyState && heartCount! < 3)
+                          IconButton(
+                            onPressed: (){
+                              showDialog(context: context, builder: (ct) => const AdSpaceDialog());
+                              valuesBloc.add(AddHeartCountEvent());
+                            },
+                            icon: Icon(Icons.add, color: primary),
+                          ),
+                        ...List.generate( state.runtimeType == ValuesFetchedSuccessfullyState?
                         heartCount! : 3, (index) => Padding(
-                        padding:  EdgeInsets.only(right:size.width * 0.01),
-                        child: Image.asset('assets/images/heart.png', height: size.height * 0.03),
-                      ),
-                      )
+                          padding:  EdgeInsets.only(left:size.width * 0.01),
+                          child: Image.asset('assets/images/heart.png', height: size.height * 0.03),
+                        )),
+                      ]
                     ),
                   ),
                 ],
@@ -46,7 +58,7 @@ class QuestionScreen extends StatelessWidget {
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [background, primary],
+                    colors: [top, bottom],
                   ),
                 ),
                 child: Column(

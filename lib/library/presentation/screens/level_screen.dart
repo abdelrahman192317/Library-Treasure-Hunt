@@ -26,7 +26,7 @@ class LevelScreen extends StatelessWidget {
           textDirection: TextDirection.rtl,
           child: Scaffold(
             appBar: AppBar(
-              backgroundColor: Colors.transparent,
+              backgroundColor: top,
               elevation: 0,
               actions: [
                 Padding(
@@ -51,7 +51,7 @@ class LevelScreen extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [background, primary],
+                  colors: [top, bottom],
                 ),
               ),
               child: state.runtimeType == QuestionsFetchedSuccessfullyState?

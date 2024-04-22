@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:library_treasure_hunt/library/core/global/global.dart';
+
 import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
 
 import '../../bloc/questions/questions_bloc.dart';
 import '../../bloc/values/values_bloc.dart';
+import '../../core/global/global.dart';
 import 'add_question/add_question.dart';
 import 'levels.dart';
 
@@ -24,7 +26,8 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    timer = Timer.periodic(const Duration(minutes: 10), (Timer t) => valuesBloc.add(AddHeartCountEvent()));
+    timer = Timer.periodic(const Duration(minutes: 2),
+            (Timer t) => valuesBloc.add(AddHeartCountEvent()));
     super.initState();
   }
 

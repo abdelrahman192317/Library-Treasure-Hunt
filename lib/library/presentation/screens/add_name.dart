@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../bloc/questions/questions_bloc.dart';
 import '../../bloc/values/values_bloc.dart';
 import '../../core/global/global.dart';
-import '../../core/utilities/colors.dart';
 import '../../core/utilities/functions.dart';
 import 'home.dart';
 
@@ -75,11 +75,16 @@ class _AddNameState extends State<AddName> {
                           child: TextFormField(
                             controller: _nameController,
                             decoration: InputDecoration(
-                              border: const OutlineInputBorder(
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white),
                                 borderRadius: BorderRadius.all(Radius.circular(15)),
                               ),
-                              labelText: 'الإسم',
-                              labelStyle: Theme.of(context).textTheme.bodySmall,
+                              border: const OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white),
+                                borderRadius: BorderRadius.all(Radius.circular(15)),
+                              ),
+                              labelText: 'الاسم',
+                              labelStyle: Theme.of(context).textTheme.titleMedium,
                             ),
                             enabled: editable,
                             keyboardType: TextInputType.name,
@@ -97,7 +102,7 @@ class _AddNameState extends State<AddName> {
                                   setState(() {
                                     editable = true;
                                   }),
-                              icon: Icon(Icons.edit, color: primary),
+                              icon: const Icon(Icons.edit, color: Colors.white),
                             ),
                           ),
                       ],
@@ -121,8 +126,8 @@ class _AddNameState extends State<AddName> {
                               MaterialPageRoute(builder: (context) =>
                                   BlocProvider<ValuesBloc>.value(
                                     value: valuesBloc,
-                                    child: BlocProvider(
-                                      create: (context) => questionsBloc,
+                                    child: BlocProvider<QuestionsBloc>.value(
+                                      value: questionsBloc,
                                       child: const Home(),
                                     ),
                                   )));
