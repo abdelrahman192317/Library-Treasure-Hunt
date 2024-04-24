@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:just_audio/just_audio.dart';
 
 import '../../bloc/questions/questions_bloc.dart';
 import '../../bloc/values/values_bloc.dart';
@@ -9,7 +10,6 @@ import '../screens/level_screen.dart';
 
 class LevelCard extends StatelessWidget {
   final int difficulty, level;
-
   const LevelCard({super.key, required this.difficulty, required this.level});
 
   @override
@@ -20,16 +20,19 @@ class LevelCard extends StatelessWidget {
       builder: (context, state) {
         return GestureDetector(
           onTap: () {
-            if(level == 0 || myAllSolvedQuestions[difficulty][level - 1].length > 9) {
-              Navigator.push(context, MaterialPageRoute(
-              builder: (context) => BlocProvider<ValuesBloc>.value(
-                value: valuesBloc,
-                  child: BlocProvider<QuestionsBloc>.value(
-                      value: questionsBloc,
-                      child: LevelScreen(difficulty: difficulty, level: level,)
-                  ),
-                )));
-            }
+            player.setAudioSource(AudioSource.asset('assets/audio/click.mp3'))
+                .then((value) => player.play().then((value) {
+              if(level == 0 || myAllSolvedQuestions[difficulty][level - 1].length > 9) {
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => BlocProvider<ValuesBloc>.value(
+                      value: valuesBloc,
+                      child: BlocProvider<QuestionsBloc>.value(
+                          value: questionsBloc,
+                          child: LevelScreen(difficulty: difficulty, level: level,)
+                      ),
+                    )));
+              }
+            }));
           },
           child: Card(
             child: Padding(

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:just_audio/just_audio.dart';
 
 import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
 
@@ -34,6 +35,7 @@ class _HomeState extends State<Home> {
   @override
   void dispose() {
     timer.cancel();
+    player.dispose();
     super.dispose();
   }
 
@@ -98,13 +100,17 @@ class _HomeState extends State<Home> {
     );
   }
 
-  _navigate(int dif) => Navigator.push(
-      context, MaterialPageRoute(builder: (context) => BlocProvider<ValuesBloc>.value(
-        value: valuesBloc,
-        child: BlocProvider<QuestionsBloc>.value(
-          value: questionsBloc,
-          child: Levels(difficulty: dif),
-        ))));
+  _navigate(int dif) {
+    player.setAudioSource(AudioSource.asset('assets/audio/click.mp3'))
+        .then((value) => player.play().then((value) => Navigator.push(context,
+          MaterialPageRoute(builder: (context) => BlocProvider<ValuesBloc>.value(
+            value: valuesBloc,
+            child: BlocProvider<QuestionsBloc>.value(
+              value: questionsBloc,
+              child: Levels(difficulty: dif),
+            ))))
+    ));
+  }
 
   Widget _difficultyButton(Size size, int dif, String text, Color color) => SizedBox(
     width: size.width,

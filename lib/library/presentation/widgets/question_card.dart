@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:just_audio/just_audio.dart';
 
 import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
 
@@ -21,15 +22,18 @@ class QuestionCard extends StatelessWidget {
       builder: (context, state) {
         return InkWell(
           onTap: () {
-            if(heartCount! < 1 && myAllQuestions[difficulty][level][question].locked) {
-              Helper.toast(context, 'ليس لديك قلوب');
-            } else if(question == 0 || !myAllQuestions[difficulty][level][question - 1].locked) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => BlocProvider<ValuesBloc>.value(
-                value: valuesBloc,
+            player.setAudioSource(AudioSource.asset('assets/audio/click.mp3'))
+                .then((value) => player.play().then((value) {
+              if(heartCount! < 1 && myAllQuestions[difficulty][level][question].locked) {
+                Helper.toast(context, 'ليس لديك قلوب');
+              } else if(question == 0 || !myAllQuestions[difficulty][level][question - 1].locked) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => BlocProvider<ValuesBloc>.value(
+                  value: valuesBloc,
                   child: QuestionScreen(difficulty: difficulty,level: level, question: question,
                       q: myAllQuestions[difficulty][level][question]),
-              )));
-            }
+                )));
+              }
+            }));
           },
           child: Card(
             child: Center(

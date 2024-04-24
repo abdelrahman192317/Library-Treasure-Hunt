@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 
 import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
 
@@ -22,7 +23,6 @@ class AnswerCard extends StatefulWidget {
 }
 
 class _AnswerCardState extends State<AnswerCard> {
-
   bool _wrong = false;
   bool _solved = false;
 
@@ -53,6 +53,9 @@ class _AnswerCardState extends State<AnswerCard> {
                   difficulty: widget.difficulty, level: widget.level, question: widget.question
               ));
 
+              player.setAudioSource(AudioSource.asset('assets/audio/click.mp3'))
+                  .then((value) => player.play());
+
               showDialog(context: context, builder: (c) => RightAnswerDialog(
                   rightAnswer: widget.rightAnswer)).then((value) {
                     valuesBloc.add(MinusHeartCountEvent());
@@ -62,6 +65,10 @@ class _AnswerCardState extends State<AnswerCard> {
             } else if(widget.answer != widget.rightAnswer) {
               valuesBloc.add(MinusHeartCountEvent());
               setState(() => _wrong = true);
+
+              player.setAudioSource(AudioSource.asset('assets/audio/mistake.wav'))
+                  .then((value) => player.play());
+
               showDialog(context: context, builder: (c) => RightAnswerDialog(
                   rightAnswer: widget.rightAnswer)).then((value) => Navigator.pop(context));
 
@@ -70,6 +77,10 @@ class _AnswerCardState extends State<AnswerCard> {
                 difficulty: widget.difficulty, level: widget.level, question: widget.question
               ));
               setState(() => _solved = true);
+
+              player.setAudioSource(AudioSource.asset('assets/audio/correct.mp3'))
+                  .then((value) => player.play());
+
               Helper.toast(context, 'إجابــة صحيحـــة ♥');
               Future.delayed(const Duration(seconds: 1), () => Navigator.pop(context));
             }

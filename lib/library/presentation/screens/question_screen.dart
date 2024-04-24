@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:just_audio/just_audio.dart';
+
 import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
 
 import '../../bloc/values/values_bloc.dart';
@@ -37,8 +40,12 @@ class QuestionScreen extends StatelessWidget {
                         if(state.runtimeType == ValuesFetchedSuccessfullyState && heartCount! < 3)
                           IconButton(
                             onPressed: (){
-                              showDialog(context: context, builder: (ct) => const AdSpaceDialog());
-                              valuesBloc.add(AddHeartCountEvent());
+                              player.setAudioSource(AudioSource.asset('assets/audio/click.mp3'))
+                                  .then((value) => player.play());
+                              showDialog(context: context,
+                                  barrierColor: shadow,
+                                  builder: (ct) => const AdSpaceDialog())
+                                  .then((value) => valuesBloc.add(AddHeartCountEvent()));
                             },
                             icon: Icon(Icons.add, color: primary),
                           ),
