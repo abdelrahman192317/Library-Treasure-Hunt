@@ -25,50 +25,61 @@ class LevelScreen extends StatelessWidget {
         return Directionality(
           textDirection: TextDirection.rtl,
           child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: top,
-              elevation: 0,
-              actions: [
-                Padding(
-                  padding: EdgeInsets.all(size.height * 0.01),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      if(state.runtimeType == QuestionsFetchedSuccessfullyState)
-                        Text(
-                            '${myAllSolvedQuestions[difficulty][level].length}',
-                            style: context.getThemeTextStyle().titleLarge),
-                      Image.asset('assets/images/key.png',width: size.height * 0.05),
-                    ],
+              appBar: AppBar(
+                iconTheme: const IconThemeData(color: Colors.white),
+                backgroundColor: top,
+                elevation: 0,
+                actions: [
+                  Padding(
+                    padding: EdgeInsets.all(size.height * 0.01),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        if (state.runtimeType ==
+                            QuestionsFetchedSuccessfullyState)
+                          Text(
+                              '${myAllSolvedQuestions[difficulty][level].length}',
+                              style: context.getThemeTextStyle().titleLarge),
+                        Image.asset('assets/images/key.png',
+                            width: size.height * 0.05),
+                      ],
+                    ),
+                  ),
+                ],
+                title: Text(
+                  'المستوى ${levels[level]}',
+                  style: const TextStyle(
+                    color: Colors.white,
                   ),
                 ),
-              ],
-              title: Text('المستوى ${levels[level]}'),
-              centerTitle: true,
-            ),
-            body: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [top, bottom],
-                ),
+                centerTitle: true,
               ),
-              child: state.runtimeType == QuestionsFetchedSuccessfullyState?
-                GridView.builder(
-                  itemCount: myAllQuestions[difficulty][level].length,
-                  padding: EdgeInsets.all(size.height * 0.005),
-                  itemBuilder: (ctx1, index) => QuestionCard(
-                      difficulty: difficulty, level: level, question: index),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                  ))
-                : Center(child: SpinKitFadingCircle(
-                color: Theme.of(context).primaryColor,
-                size: size.height * 0.1,
+              body: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [top, bottom],
+                  ),
+                ),
+                child: state.runtimeType == QuestionsFetchedSuccessfullyState
+                    ? GridView.builder(
+                        itemCount: myAllQuestions[difficulty][level].length,
+                        padding: EdgeInsets.all(size.height * 0.005),
+                        itemBuilder: (ctx1, index) => QuestionCard(
+                            difficulty: difficulty,
+                            level: level,
+                            question: index),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                        ))
+                    : Center(
+                        child: SpinKitFadingCircle(
+                        color: Theme.of(context).primaryColor,
+                        size: size.height * 0.1,
+                      )),
               )),
-            )
-          ),
         );
       },
     );

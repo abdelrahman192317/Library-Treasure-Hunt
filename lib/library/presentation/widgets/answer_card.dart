@@ -14,9 +14,15 @@ class AnswerCard extends StatefulWidget {
   final String answer, rightAnswer;
   final bool isHelp, solved;
 
-  const AnswerCard({super.key, required this.answer, required this.rightAnswer, this.isHelp = false,
-    required this.difficulty, required this.level, required this.question,
-    this.solved = false});
+  const AnswerCard(
+      {super.key,
+      required this.answer,
+      required this.rightAnswer,
+      this.isHelp = false,
+      required this.difficulty,
+      required this.level,
+      required this.question,
+      this.solved = false});
 
   @override
   State<AnswerCard> createState() => _AnswerCardState();
@@ -43,59 +49,76 @@ class _AnswerCardState extends State<AnswerCard> {
         height: size.height * 0.08,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-              backgroundColor: _wrong? Colors.redAccent :
-              (_solved && widget.answer == widget.rightAnswer)? canvas
-                  : widget.isHelp? background : Colors.white
-          ),
-          onPressed: _solved? (){} : () {
-            if(widget.isHelp) {
-              questionsBloc.add(SolvedAnswerEvent(
-                  difficulty: widget.difficulty, level: widget.level, question: widget.question
-              ));
+              backgroundColor: _wrong
+                  ? Colors.redAccent
+                  : (_solved && widget.answer == widget.rightAnswer)
+                      ? canvas
+                      : widget.isHelp
+                          ? background
+                          : Colors.white),
+          onPressed: _solved
+              ? () {}
+              : () {
+                  if (widget.isHelp) {
+                    questionsBloc.add(SolvedAnswerEvent(
+                        difficulty: widget.difficulty,
+                        level: widget.level,
+                        question: widget.question));
 
-              player.setAudioSource(AudioSource.asset('assets/audio/click.mp3'))
-                  .then((value) => player.play());
+                    player
+                        .setAudioSource(
+                            AudioSource.asset('assets/audio/click.mp3'))
+                        .then((value) => player.play());
 
-              showDialog(context: context, builder: (c) => RightAnswerDialog(
-                  rightAnswer: widget.rightAnswer)).then((value) {
+                    showDialog(
+                        context: context,
+                        builder: (c) => RightAnswerDialog(
+                            rightAnswer: widget.rightAnswer)).then((value) {
+                      valuesBloc.add(MinusHeartCountEvent());
+                      Navigator.pop(context);
+                    });
+                  } else if (widget.answer != widget.rightAnswer) {
                     valuesBloc.add(MinusHeartCountEvent());
-                    Navigator.pop(context);
-                  });
+                    setState(() => _wrong = true);
 
-            } else if(widget.answer != widget.rightAnswer) {
-              valuesBloc.add(MinusHeartCountEvent());
-              setState(() => _wrong = true);
+                    player
+                        .setAudioSource(
+                            AudioSource.asset('assets/audio/mistake.wav'))
+                        .then((value) => player.play());
 
-              player.setAudioSource(AudioSource.asset('assets/audio/mistake.wav'))
-                  .then((value) => player.play());
+                    showDialog(
+                            context: context,
+                            builder: (c) => RightAnswerDialog(
+                                rightAnswer: widget.rightAnswer))
+                        .then((value) => Navigator.pop(context));
+                  } else {
+                    questionsBloc.add(SolvedAnswerEvent(
+                        difficulty: widget.difficulty,
+                        level: widget.level,
+                        question: widget.question));
+                    setState(() => _solved = true);
 
-              showDialog(context: context, builder: (c) => RightAnswerDialog(
-                  rightAnswer: widget.rightAnswer)).then((value) => Navigator.pop(context));
+                    player
+                        .setAudioSource(
+                            AudioSource.asset('assets/audio/correct.mp3'))
+                        .then((value) => player.play());
 
-            } else{
-              questionsBloc.add(SolvedAnswerEvent(
-                difficulty: widget.difficulty, level: widget.level, question: widget.question
-              ));
-              setState(() => _solved = true);
-
-              player.setAudioSource(AudioSource.asset('assets/audio/correct.mp3'))
-                  .then((value) => player.play());
-
-              Helper.toast(context, 'إجابــة صحيحـــة ♥');
-              Future.delayed(const Duration(seconds: 1), () => Navigator.pop(context));
-            }
-          },
+                    Helper.toast(context, 'إجابــة صحيحـــة ♥');
+                    Future.delayed(const Duration(seconds: 1),
+                        () => Navigator.pop(context));
+                  }
+                },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if(widget.isHelp)
-                Image.asset('assets/images/help.png',height: size.height * 0.04),
+              if (widget.isHelp)
+                Image.asset('assets/images/help.png',
+                    height: size.height * 0.04),
               Padding(
-                padding: EdgeInsets.only(right: size.height * 0.02),
-                child: Text(widget.answer,
-                  style: context.getThemeTextStyle().titleLarge!.copyWith(
-                      color: widget.isHelp? null : Colors.black
-                ))),
+                  padding: EdgeInsets.only(right: size.height * 0.02),
+                  child: Text(widget.answer,
+                      style: context.getThemeTextStyle().titleLarge!.copyWith(
+                          color: widget.isHelp ? null : Colors.black))),
             ],
           ),
         ),
