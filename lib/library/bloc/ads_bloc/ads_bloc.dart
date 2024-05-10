@@ -60,7 +60,7 @@ class AdsBloc extends Cubit<AdsStates> {
             printWithColorAndStyle(
               'Reward: $rewardScore',
             );
-            if (heartCount! < 3) {
+            if (heartCount! < 5) {
               valuesBloc.add(AddHeartCountEvent());
             }
           }),
@@ -89,29 +89,3 @@ class AdsBloc extends Cubit<AdsStates> {
     emit(AdsChangeLoadingState());
   }
 }
-
-//   void showAds() {
-//     if (rewardedAd != null) {
-//       rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
-//         onAdDismissedFullScreenContent: (ad) {
-//           rewardedAd!.dispose();
-//           loadRewardAds();
-//           emit(AdsSuccessState());
-//         },
-//         onAdFailedToShowFullScreenContent: (ad, error) {
-//           rewardedAd!.dispose();
-//           loadRewardAds();
-//           emit(AdsErrorState());
-//         },
-//       );
-//       rewardedAd!.show(
-//         onUserEarnedReward: ((ad, reward) {
-//           rewardScore++;
-//           emit(AdsChangeScoreState());
-//           printWithColorAndStyle(
-//             'Reward: $rewardScore',
-//           );
-//         }),
-//       );
-//     }
-//   }

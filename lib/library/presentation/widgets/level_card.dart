@@ -50,7 +50,7 @@ class LevelCard extends StatelessWidget {
                   'assets/images/star.png',
                   height: size.height * 0.05,
                 ),
-                title: Text('المستوى ${levels[level]}'),
+                title: Text('المستوى ${levels[level]}', style: Theme.of(context).textTheme.titleMedium),
                 trailing: level == 0 ||
                         myAllSolvedQuestions[difficulty][level - 1].length > 9
                     ? Column(

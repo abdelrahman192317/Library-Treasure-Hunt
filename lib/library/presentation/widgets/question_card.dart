@@ -24,14 +24,8 @@ class QuestionCard extends StatelessWidget {
           onTap: () {
             player.setAudioSource(AudioSource.asset('assets/audio/click.mp3'))
                 .then((value) => player.play().then((value) {
-              if(heartCount! < 1 && myAllQuestions[difficulty][level][question].locked) {
-                Helper.toast(context, 'ليس لديك قلوب');
-              } else if(question == 0 || !myAllQuestions[difficulty][level][question - 1].locked) {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => BlocProvider<ValuesBloc>.value(
-                  value: valuesBloc,
-                  child: QuestionScreen(difficulty: difficulty,level: level, question: question,
-                      q: myAllQuestions[difficulty][level][question]),
-                )));
+              if(question == 0 || !myAllQuestions[difficulty][level][question - 1].locked) {
+                _navigate(context, question);
               }
             }));
           },
@@ -48,4 +42,13 @@ class QuestionCard extends StatelessWidget {
       },
     );
   }
+
+  _navigate(BuildContext context, int question){
+    Navigator.push(context, MaterialPageRoute(builder: (context) => BlocProvider<ValuesBloc>.value(
+      value: valuesBloc,
+      child: QuestionScreen(difficulty: difficulty,level: level, question: question,
+          q: myAllQuestions[difficulty][level][question]),
+    ))).then((value) => value !=null? _navigate(context, question + 1): null);
+  }
+
 }

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:library_treasure_hunt/library/bloc/ads_bloc/ads_bloc.dart';
-import 'package:library_treasure_hunt/library/bloc/ads_bloc/ads_states.dart';
-import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
+
+import '../../bloc/ads_bloc/ads_bloc.dart';
+import '../../bloc/ads_bloc/ads_states.dart';
+import '../../core/utilities/functions.dart';
+
 
 class AdsButton extends StatefulWidget {
-  const AdsButton({Key? key, required this.answer}) : super(key: key);
+  const AdsButton({super.key, required this.answer});
   final String answer;
 
   @override
@@ -27,15 +29,7 @@ class _AdsButtonState extends State<AdsButton> {
       child: BlocConsumer<AdsBloc, AdsStates>(
         listener: (context, state) {
           if (state is AdsLoadingState) {
-            Fluttertoast.showToast(
-              msg: 'سوف يتم تشغيل الإعلان برجاء الانتظار',
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 2,
-              backgroundColor: Colors.green,
-              textColor: Colors.white,
-              fontSize: 16.0,
-            );
+            Helper.toast(context, 'سوف يتم تشغيل الإعلان برجاء الانتظار');
           }
         },
         builder: (context, state) {
@@ -110,7 +104,7 @@ Widget buildContentButton(Size size, BuildContext con, context, answer) {
         children: [
           Image.asset(
             'assets/images/reward.png',
-            height: size.height * 0.04,
+            height: size.height * 0.03,
           ),
           Padding(
             padding: EdgeInsets.only(right: size.height * 0.02),

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
-import 'package:library_treasure_hunt/library/presentation/widgets/ads_button.dart';
 
 import '../../bloc/values/values_bloc.dart';
 import '../../core/global/global.dart';
 import '../../core/utilities/colors.dart';
 import '../../data/models/questions_model.dart';
+import '../widgets/ads_button.dart';
 import '../widgets/answer_card.dart';
 
 class QuestionScreen extends StatelessWidget {
@@ -44,8 +43,7 @@ class QuestionScreen extends StatelessWidget {
                           ...List.generate(
                               state.runtimeType ==
                                       ValuesFetchedSuccessfullyState
-                                  ? heartCount!
-                                  : 3,
+                                  ? heartCount! : 5,
                               (index) => Padding(
                                     padding: EdgeInsets.only(
                                         left: size.width * 0.01),
@@ -87,51 +85,51 @@ class QuestionScreen extends StatelessWidget {
                     ),
                     SizedBox(height: size.height * 0.05),
                     AnswerCard(
-                        answer: q.answer_1,
-                        rightAnswer: q.rightAnswer,
-                        difficulty: difficulty,
-                        level: level,
-                        question: question,
-                        solved: !q.locked),
+                      answer: q.answer_1,
+                      rightAnswer: q.rightAnswer,
+                      difficulty: difficulty,
+                      level: level,
+                      question: question,
+                      solved: !q.locked,
+                    ),
                     AnswerCard(
-                        answer: q.answer_2,
-                        rightAnswer: q.rightAnswer,
-                        difficulty: difficulty,
-                        level: level,
-                        question: question,
-                        solved: !q.locked),
+                      answer: q.answer_2,
+                      rightAnswer: q.rightAnswer,
+                      difficulty: difficulty,
+                      level: level,
+                      question: question,
+                      solved: !q.locked,
+                    ),
                     AnswerCard(
-                        answer: q.answer_3,
-                        rightAnswer: q.rightAnswer,
-                        difficulty: difficulty,
-                        level: level,
-                        question: question,
-                        solved: !q.locked),
+                      answer: q.answer_3,
+                      rightAnswer: q.rightAnswer,
+                      difficulty: difficulty,
+                      level: level,
+                      question: question,
+                      solved: !q.locked,
+                    ),
                     AnswerCard(
-                        answer: q.answer_4,
-                        rightAnswer: q.rightAnswer,
-                        difficulty: difficulty,
-                        level: level,
-                        question: question,
-                        solved: !q.locked),
+                      answer: q.answer_4,
+                      rightAnswer: q.rightAnswer,
+                      difficulty: difficulty,
+                      level: level,
+                      question: question,
+                      solved: !q.locked,
+                    ),
                     SizedBox(height: size.height * 0.05),
                     Row(
                       children: [
-                        const Expanded(
-                          child: AdsButton(answer: 'فرصة إضافية'),
-                        ),
-                        SizedBox(width: size.width * 0.009),
-                        if (q.locked)
-                          Expanded(
-                            child: AnswerCard(
-                              answer: 'مساعدة',
-                              rightAnswer: q.rightAnswer,
-                              difficulty: difficulty,
-                              level: level,
-                              question: question,
-                              isHelp: true,
-                            ),
-                          ),
+                        if(heartCount! < 5)const Expanded(child: AdsButton(answer: 'إضافة قلوب')),
+                        SizedBox(width: size.width * 0.01),
+                        if (q.locked) Expanded(
+                          child: AnswerCard(
+                            answer: 'مساعدة',
+                            rightAnswer: q.rightAnswer,
+                            difficulty: difficulty,
+                            level: level,
+                            question: question,
+                            isHelp: true,
+                        )),
                       ],
                     ),
                   ],

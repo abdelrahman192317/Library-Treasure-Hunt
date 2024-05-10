@@ -66,15 +66,11 @@ class LevelScreen extends StatelessWidget {
                     ? GridView.builder(
                         itemCount: myAllQuestions[difficulty][level].length,
                         padding: EdgeInsets.all(size.height * 0.005),
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
                         itemBuilder: (ctx1, index) => QuestionCard(
-                            difficulty: difficulty,
-                            level: level,
-                            question: index),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                        ))
-                    : Center(
+                            difficulty: difficulty, level: level, question: index,
+                        ),
+                    ) : Center(
                         child: SpinKitFadingCircle(
                         color: Theme.of(context).primaryColor,
                         size: size.height * 0.1,

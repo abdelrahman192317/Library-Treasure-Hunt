@@ -22,7 +22,7 @@ class LocalManager{
     }
   }
   static addHeartCount(){
-    if(heartCount! < 3){
+    if(heartCount! < 5){
       heartCount = heartCount! + 1;
       sharedPreferences!.setInt('heartCount', heartCount!);
     }

@@ -22,24 +22,21 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  //late Timer timer;
-  //bool showTimer = false;
+  late Timer timer;
 
   @override
   void initState() {
-    // timer = Timer.periodic(const Duration(minutes: 2), (Timer t) {
-    //   if (heartCount! < 3) {
-    //     setState(() {
-    //       showTimer = true;
-    //     });
-    //   }
-    // });
+    timer = Timer.periodic(const Duration(minutes: 10), (Timer t) {
+      if (heartCount! < 5) {
+        valuesBloc.add(AddHeartCountEvent());
+      }
+    });
     super.initState();
   }
 
   @override
   void dispose() {
-    //timer.cancel();
+    timer.cancel();
     player.dispose();
     super.dispose();
   }
@@ -94,7 +91,7 @@ class _HomeState extends State<Home> {
                             fit: BoxFit.cover,
                           ),
                         ),
-                        SizedBox(height: size.height * 0.1),
+                        SizedBox(height: size.height * 0.05),
                         Text(
                           'إختر مستوي الاسئلة',
                           style: Theme.of(context).textTheme.titleLarge,
@@ -107,17 +104,19 @@ class _HomeState extends State<Home> {
                         SizedBox(height: size.height * 0.01),
                         _difficultyButton(
                             size, 2, 'صعب', Theme.of(context).primaryColor),
-                        SizedBox(height: size.height * 0.05),
-                        // if (showTimer) ...[
-                        //   // Display timer if heart count is less than 3
-                        //   const Text(
-                        //     'يمكنك الحصول على قلب جديد بعد دقيـقتين',
-                        //     style: TextStyle(fontSize: 16),
-                        //   ),
-                        //   SizedBox(height: size.height * 0.02),
-                        // ],
-                        const AdsButton(answer: 'فرصة إضافيــة'),
-                        SizedBox(height: size.height * 0.05),
+                        SizedBox(height: size.height * 0.02),
+                        if (heartCount! < 5) ...[
+                          // Display timer if heart count is less than 3
+                          const Text(
+                            'يمكنك الحصول على قلب جديد بعد 10 دقائق او ...',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          SizedBox(height: size.height * 0.01),
+                        ],
+                        if(heartCount! < 5) ...[
+                          const AdsButton(answer: 'إضـافة قلــوب'),
+                          SizedBox(height: size.height * 0.05),
+                        ]
                       ],
                     ),
                   ),
@@ -129,11 +128,9 @@ class _HomeState extends State<Home> {
   }
 
   _navigate(int dif) {
-    player
-        .setAudioSource(AudioSource.asset('assets/audio/click.mp3'))
+    player.setAudioSource(AudioSource.asset('assets/audio/click.mp3'))
         .then((value) => player.play().then((value) => Navigator.push(
-            context,
-            MaterialPageRoute(
+            context, MaterialPageRoute(
                 builder: (context) => BlocProvider<ValuesBloc>.value(
                     value: valuesBloc,
                     child: BlocProvider<QuestionsBloc>.value(
