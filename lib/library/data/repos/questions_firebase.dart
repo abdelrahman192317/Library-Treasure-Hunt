@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 
 import '../../core/global/global.dart';
 import '../models/questions_model.dart';
@@ -28,10 +27,10 @@ class QuestionsFirebaseManger {
                 )
             );
           }
+          questionsMatrix[j].sort((a, b) => int.parse(a.questionId).compareTo(int.parse(b.questionId)));
         }
         questions3Matrix.add(questionsMatrix);
       }
-      debugPrint('questions3Matrix: $questions3Matrix');
       return questions3Matrix;
     } on FirebaseException {
       throw Exception();

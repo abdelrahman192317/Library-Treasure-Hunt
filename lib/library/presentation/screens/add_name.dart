@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../bloc/ads_bloc/ads_bloc.dart';
+import '../../bloc/connection/connection_bloc.dart';
 import '../../bloc/questions/questions_bloc.dart';
 import '../../bloc/values/values_bloc.dart';
 import '../../core/global/global.dart';
@@ -123,14 +125,17 @@ class _AddNameState extends State<AddName> {
                               context, 'مرحبا ${_nameController.text}');
                           Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) =>
-                                  BlocProvider<ValuesBloc>.value(
-                                    value: valuesBloc,
-                                    child: BlocProvider<QuestionsBloc>.value(
-                                      value: questionsBloc,
-                                      child: const Home(),
-                                    ),
-                                  )));
+                              MaterialPageRoute(builder: (context) => BlocProvider(
+                                create: (context) => ConnectionBloc()..add(InitialConnectionEvent()),
+                                child: BlocProvider<AdsBloc>.value(
+                                    value: adsBloc,
+                                    child: BlocProvider<ValuesBloc>.value(
+                                      value: valuesBloc,
+                                      child: BlocProvider<QuestionsBloc>.value(
+                                        value: questionsBloc,
+                                        child: const Home(),
+                                      ),
+                              )))));
                         }
                       },
                       child: Text('ابدأ اللعب', style: Theme.of(context).textTheme.titleLarge,),

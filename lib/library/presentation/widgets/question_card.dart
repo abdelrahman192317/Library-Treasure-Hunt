@@ -5,6 +5,7 @@ import 'package:just_audio/just_audio.dart';
 
 import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
 
+import '../../bloc/ads_bloc/ads_bloc.dart';
 import '../../bloc/questions/questions_bloc.dart';
 import '../../bloc/values/values_bloc.dart';
 import '../../core/global/global.dart';
@@ -46,9 +47,11 @@ class QuestionCard extends StatelessWidget {
   _navigate(BuildContext context, int question){
     Navigator.push(context, MaterialPageRoute(builder: (context) => BlocProvider<ValuesBloc>.value(
       value: valuesBloc,
-      child: QuestionScreen(difficulty: difficulty,level: level, question: question,
-          q: myAllQuestions[difficulty][level][question]),
-    ))).then((value) => value !=null? _navigate(context, question + 1): null);
+      child: BlocProvider<AdsBloc>.value(
+        value: adsBloc,
+        child: QuestionScreen(difficulty: difficulty,level: level, question: question,
+            q: myAllQuestions[difficulty][level][question]),
+      )))).then((value) => value !=null? _navigate(context, question + 1): null);
   }
 
 }

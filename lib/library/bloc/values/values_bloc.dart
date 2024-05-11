@@ -16,6 +16,8 @@ class ValuesBloc extends Bloc<ValuesEvent, ValuesState> {
 
     on<GetHeartCountEvent>(getHeartCountEvent);
 
+    on<EditLastCloseTimeEvent>(editLastCloseTimeEvent);
+
     on<AddHeartCountEvent>(addHeartCountEvent);
     on<MinusHeartCountEvent>(minusHeartCountEvent);
   }
@@ -38,6 +40,15 @@ class ValuesBloc extends Bloc<ValuesEvent, ValuesState> {
       GetHeartCountEvent event, Emitter<ValuesState> emit) async {
     emit(ValuesLoadingState());
     heartCount = LocalManager.getHeartCount();
+    lastCloseTime = LocalManager.getLastCloseTime();
+    emit(ValuesFetchedSuccessfullyState());
+  }
+
+  FutureOr<void> editLastCloseTimeEvent(
+      EditLastCloseTimeEvent event, Emitter<ValuesState> emit) async {
+    emit(ValuesLoadingState());
+    lastCloseTime = event.lastCloseTime;
+    await LocalManager.editLastCloseTime(lastCloseTime!);
     emit(ValuesFetchedSuccessfullyState());
   }
 

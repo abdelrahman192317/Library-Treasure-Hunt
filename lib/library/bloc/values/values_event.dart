@@ -13,3 +13,8 @@ class GetHeartCountEvent extends ValuesEvent {}
 
 class AddHeartCountEvent extends ValuesEvent {}
 class MinusHeartCountEvent extends ValuesEvent {}
+
+class EditLastCloseTimeEvent extends ValuesEvent {
+  final DateTime lastCloseTime;
+  EditLastCloseTimeEvent({required this.lastCloseTime});
+}

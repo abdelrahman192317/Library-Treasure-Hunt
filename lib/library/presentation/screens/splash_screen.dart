@@ -6,6 +6,7 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../../bloc/ads_bloc/ads_bloc.dart';
 import '../../bloc/questions/questions_bloc.dart';
 import '../../bloc/values/values_bloc.dart';
 import '../../core/global/global.dart';
@@ -23,6 +24,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+
+    adsBloc = AdsBloc();
+
     valuesBloc = ValuesBloc();
     valuesBloc.add(GetNameEvent());
     valuesBloc.add(GetHeartCountEvent());

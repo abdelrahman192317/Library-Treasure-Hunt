@@ -28,8 +28,16 @@ class LocalManager{
     }
   }
 
+  static DateTime getLastCloseTime(){
+    String? ret =  sharedPreferences!.getString('lastCloseTime') ;
+    return ret == null? DateTime.now() : DateTime.parse(ret);
+  }
+  static editLastCloseTime(DateTime lastCloseTime){
+    sharedPreferences!.setString('lastCloseTime', lastCloseTime.toIso8601String());
+  }
+
   //questions
-  static List<List<Map<String, String>>> getAllSolvedQuestions(){
+  static List<List<Map<String, String>>> getAllSolvedQuestions() {
     List<List<Map<String, String>>> allSolvedQuestions = [];
     List<Map<String, String>> solvedQuestions = [];
 

@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:just_audio/just_audio.dart';
 
 import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
 import 'package:library_treasure_hunt/library/presentation/widgets/ads_button.dart';
 
+import '../../bloc/connection/connection_bloc.dart';
 import '../../bloc/questions/questions_bloc.dart';
 import '../../bloc/values/values_bloc.dart';
 import '../../core/global/global.dart';
@@ -23,19 +25,27 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late Timer timer;
+  int _min = 0;
 
   @override
   void initState() {
+    _min = DateTime.now().difference(lastCloseTime!).inMinutes ~/ 10;
+    for(int i = 0; heartCount! < 5 && i < _min; i++){
+      valuesBloc.add(AddHeartCountEvent());
+    }
+
     timer = Timer.periodic(const Duration(minutes: 10), (Timer t) {
       if (heartCount! < 5) {
         valuesBloc.add(AddHeartCountEvent());
       }
     });
+
     super.initState();
   }
 
   @override
   void dispose() {
+    valuesBloc.add(EditLastCloseTimeEvent(lastCloseTime: DateTime.now()));
     timer.cancel();
     player.dispose();
     super.dispose();
@@ -45,7 +55,28 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return BlocBuilder<ValuesBloc, ValuesState>(
+    return BlocBuilder<ConnectionBloc, ConnectivityState>(
+      builder: (context, cState) {
+        return cState.runtimeType == NoConnectionState ? Scaffold(
+          body: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SvgPicture.asset(
+                  'assets/images/svg/connection.svg',
+                  height: size.height * 0.28,
+                ),
+                SizedBox(
+                  height: size.height * 0.05,
+                ),
+                Text(
+                  'لا يوجد اتصال بالإنترنت',
+                  style: Theme.of(context).textTheme.titleLarge,
+                )
+              ],
+            ),
+          ),
+        ) : BlocBuilder<ValuesBloc, ValuesState>(
       builder: (context, state) {
         return Directionality(
             textDirection: TextDirection.rtl,
@@ -123,8 +154,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ));
-      },
-    );
+      });});
   }
 
   _navigate(int dif) {
