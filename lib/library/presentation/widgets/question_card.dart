@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:just_audio/just_audio.dart';
 
 import '../../core/utils/functions.dart';
 
-import '../../bloc/ads_bloc/ads_bloc.dart';
 import '../../bloc/questions/questions_bloc.dart';
-import '../../bloc/values/values_bloc.dart';
 import '../../core/global/global.dart';
-import '../screens/question_screen.dart';
+import '../screens/edit_question_screen.dart';
 
 class QuestionCard extends StatelessWidget {
   final int difficulty, level, question;
@@ -17,45 +14,25 @@ class QuestionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     
     return BlocBuilder<QuestionsBloc, QuestionsState>(
       builder: (context, state) {
         return InkWell(
           onTap: () {
-            player.setAudioSource(AudioSource.asset('assets/audio/click.mp3'))
-                .then((value) => player.play().then((value) {
-              if(question == 0 || !myAllQuestions[difficulty][level][question - 1].locked) {
-                _navigate(context, question);
-              }
-            }));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => BlocProvider<QuestionsBloc>.value(
+                  value: questionsBloc,
+                  child: EditQuestion(difficulty: difficulty,level: level, question: question,
+                      q: myAllQuestions[difficulty][level][question]),
+                )));
           },
           child: Card(
             child: Center(
-              child: !myAllQuestions[difficulty][level][question].locked?
-                Icon(Icons.check, size: size.height * 0.06, color: Colors.green,)
-                : question == 0 || !myAllQuestions[difficulty][level][question - 1].locked ?
-                Text('${question + 1}', style: context.getThemeTextStyle().headlineLarge)
-                : Image.asset('assets/images/lock.png', height: size.height * 0.08),
+              child: Text('${question + 1}', style: context.getThemeTextStyle().headlineLarge),
             )
           ),
         );
       },
     );
-  }
-
-  _navigate(BuildContext context, int question){
-    if(question == myAllQuestions[difficulty][level].length) {
-      Navigator.pop(context);
-    } else {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => BlocProvider<ValuesBloc>.value(
-      value: valuesBloc,
-      child: BlocProvider<AdsBloc>.value(
-        value: adsBloc,
-        child: QuestionScreen(difficulty: difficulty,level: level, question: question,
-            q: myAllQuestions[difficulty][level][question]),
-      )))).then((value) => value !=null? _navigate(context, question + 1): null);
-    }
   }
 
 }

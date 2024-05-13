@@ -29,23 +29,6 @@ class LevelScreen extends StatelessWidget {
                 iconTheme: const IconThemeData(color: Colors.white),
                 backgroundColor: top,
                 elevation: 0,
-                actions: [
-                  Padding(
-                    padding: EdgeInsets.all(size.height * 0.01),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        if (state.runtimeType ==
-                            QuestionsFetchedSuccessfullyState)
-                          Text(
-                              '${myAllSolvedQuestions[difficulty][level].length}',
-                              style: context.getThemeTextStyle().titleLarge),
-                        Image.asset('assets/images/key.png',
-                            width: size.height * 0.05),
-                      ],
-                    ),
-                  ),
-                ],
                 title: Text(
                   'المستوى ${levels[level]}',
                   style: const TextStyle(

@@ -20,27 +20,17 @@ class LevelCard extends StatelessWidget {
       builder: (context, state) {
         return GestureDetector(
           onTap: () {
-            player
-                .setAudioSource(AudioSource.asset('assets/audio/click.mp3'))
-                .then((value) => player.play().then((value) {
-                      if (level == 0 ||
-                          myAllSolvedQuestions[difficulty][level - 1].length >
-                              9) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    BlocProvider<ValuesBloc>.value(
-                                      value: valuesBloc,
-                                      child: BlocProvider<QuestionsBloc>.value(
-                                          value: questionsBloc,
-                                          child: LevelScreen(
-                                            difficulty: difficulty,
-                                            level: level,
-                                          )),
-                                    )));
-                      }
-                    }));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                    BlocProvider<QuestionsBloc>.value(
+                          value: questionsBloc,
+                          child: LevelScreen(
+                            difficulty: difficulty,
+                            level: level,
+                          )),
+                    ));
           },
           child: Card(
             child: Padding(
@@ -51,30 +41,6 @@ class LevelCard extends StatelessWidget {
                   height: size.height * 0.05,
                 ),
                 title: Text('المستوى ${levels[level]}', style: Theme.of(context).textTheme.titleMedium),
-                trailing: level == 0 ||
-                        myAllSolvedQuestions[difficulty][level - 1].length > 9
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/openLock.png',
-                            height: size.height * 0.04,
-                          ),
-                          if (state.runtimeType ==
-                              QuestionsFetchedSuccessfullyState)
-                            Text(
-                              '10/${myAllSolvedQuestions[difficulty][level].length}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(fontSize: 14),
-                            ),
-                        ],
-                      )
-                    : Image.asset(
-                        'assets/images/lock.png',
-                        height: size.height * 0.05,
-                      ),
               ),
             ),
           ),

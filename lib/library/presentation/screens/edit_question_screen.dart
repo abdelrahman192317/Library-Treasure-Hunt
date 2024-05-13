@@ -107,6 +107,8 @@ class _EditQuestionState extends State<EditQuestion> {
                       TextFormField(
                         onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
                         controller: _questionController,
+                        maxLines: 4,
+
                         decoration: InputDecoration(
                           border: const OutlineInputBorder(
                               borderRadius:
@@ -117,7 +119,7 @@ class _EditQuestionState extends State<EditQuestion> {
                             Icons.question_mark,
                             color: Theme.of(context).primaryColor,
                           ),
-                          enabled: _editable
+                          enabled: _editable,
                         ),
                         keyboardType: TextInputType.name,
                         validator: (value) => value == null || value.isEmpty
@@ -131,7 +133,7 @@ class _EditQuestionState extends State<EditQuestion> {
                       //answer 1
                       Row(
                         children: [
-                          if(_editable)Expanded(
+                          if(widget.q.answer_1 == widget.q.rightAnswer || _editable)Expanded(
                               flex: 1,
                               child: Radio(
                                 value: _answer_1Controller.text,
@@ -173,7 +175,7 @@ class _EditQuestionState extends State<EditQuestion> {
                       //answer 2
                       Row(
                         children: [
-                          if(_editable)Expanded(
+                          if(widget.q.answer_2 == widget.q.rightAnswer || _editable)Expanded(
                               flex: 1,
                               child: Radio(
                                 value: _answer_2Controller.text,
@@ -215,7 +217,7 @@ class _EditQuestionState extends State<EditQuestion> {
                       //answer 3
                       Row(
                         children: [
-                          if(_editable)Expanded(
+                          if(widget.q.answer_3 == widget.q.rightAnswer || _editable)Expanded(
                               flex: 1,
                               child: Radio(
                                 value: _answer_3Controller.text,
@@ -257,7 +259,7 @@ class _EditQuestionState extends State<EditQuestion> {
                       //answer 4
                       Row(
                         children: [
-                          if(_editable)Expanded(
+                          if(widget.q.answer_4 == widget.q.rightAnswer || _editable)Expanded(
                               flex: 1,
                               child: Radio(
                                 value: _answer_4Controller.text,
@@ -354,7 +356,7 @@ class _EditQuestionState extends State<EditQuestion> {
                                     }
                                   },
                                   child: Text(
-                                    _updating ? 'Adding...' : 'Add',
+                                    _updating ? 'Updating...' : 'Update',
                                     style:
                                     const TextStyle(color: Colors.white),
                                   ),
