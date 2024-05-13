@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/ads_bloc/ads_bloc.dart';
 import '../../bloc/ads_bloc/ads_states.dart';
-import '../../core/utilities/functions.dart';
+import '../../core/utils/functions.dart';
 
 
 class AdsButton extends StatefulWidget {

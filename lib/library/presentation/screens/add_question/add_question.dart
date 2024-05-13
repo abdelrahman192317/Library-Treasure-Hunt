@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:library_treasure_hunt/library/bloc/questions/questions_bloc.dart';
 import 'package:library_treasure_hunt/library/core/global/global.dart';
-import 'package:library_treasure_hunt/library/core/utilities/colors.dart';
+import '../../../core/utils/colors.dart';
 
 import '../../../data/models/questions_model.dart';
 

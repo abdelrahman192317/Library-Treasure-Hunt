@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
-import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
-import 'package:library_treasure_hunt/library/presentation/widgets/right_answer.dart';
+import '../../core/utils/functions.dart';
+import '../../presentation/widgets/right_answer.dart';
 
 import '../../bloc/questions/questions_bloc.dart';
 import '../../bloc/values/values_bloc.dart';
 import '../../core/global/global.dart';
-import '../../core/utilities/colors.dart';
+import '../../core/utils/colors.dart';
 
 class AnswerCard extends StatefulWidget {
   final int difficulty, level, question;

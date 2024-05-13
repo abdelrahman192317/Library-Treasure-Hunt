@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
-
-import '../../core/utilities/colors.dart';
+import '../../core/utils/functions.dart';
+import '../../core/utils/colors.dart';
 
 class RightAnswerDialog extends StatelessWidget {
   final String rightAnswer;

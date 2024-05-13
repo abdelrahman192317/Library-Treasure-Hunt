@@ -6,7 +6,7 @@ import '../../bloc/connection/connection_bloc.dart';
 import '../../bloc/questions/questions_bloc.dart';
 import '../../bloc/values/values_bloc.dart';
 import '../../core/global/global.dart';
-import '../../core/utilities/functions.dart';
+import '../../core/utils/functions.dart';
 import 'home.dart';
 
 

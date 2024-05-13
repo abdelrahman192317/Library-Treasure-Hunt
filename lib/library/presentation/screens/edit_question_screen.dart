@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../bloc/questions/questions_bloc.dart';
 import '../../core/global/global.dart';
-import '../../core/utilities/colors.dart';
+import '../../core/utils/colors.dart';
 import '../../data/models/questions_model.dart';
 
 

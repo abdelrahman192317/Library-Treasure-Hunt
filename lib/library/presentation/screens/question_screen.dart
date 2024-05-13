@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
+import '../../core/utils/functions.dart';
 
 import '../../bloc/values/values_bloc.dart';
 import '../../core/global/global.dart';
-import '../../core/utilities/colors.dart';
+import '../../core/utils/colors.dart';
 import '../../data/models/questions_model.dart';
 import '../widgets/ads_button.dart';
 import '../widgets/answer_card.dart';
@@ -73,13 +73,13 @@ class QuestionScreen extends StatelessWidget {
                       child: Card(
                         color: Colors.white,
                         child: Center(
-                          child: FittedBox(
-                            child: Text(q.question,
-                                style: context
-                                    .getThemeTextStyle()
-                                    .titleLarge!
-                                    .copyWith(color: Colors.black)),
-                          ),
+                          child: Text(q.question,
+                              maxLines: 3,
+                              textAlign: TextAlign.center,
+                              style: context
+                                  .getThemeTextStyle()
+                                  .titleLarge!
+                                  .copyWith(color: Colors.black)),
                         ),
                       ),
                     ),

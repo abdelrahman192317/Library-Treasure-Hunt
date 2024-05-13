@@ -5,15 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:workmanager/workmanager.dart';
 
-import 'package:library_treasure_hunt/library/core/utilities/functions.dart';
-import 'package:library_treasure_hunt/library/presentation/widgets/ads_button.dart';
-
+import '../../core/utils/functions.dart';
 import '../../bloc/connection/connection_bloc.dart';
 import '../../bloc/questions/questions_bloc.dart';
 import '../../bloc/values/values_bloc.dart';
 import '../../core/global/global.dart';
-//import 'add_question/add_question.dart';
+import '../widgets/ads_button.dart';
 import 'levels.dart';
 
 class Home extends StatefulWidget {
@@ -24,30 +23,21 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  late Timer timer;
-  int _min = 0;
+  late Timer _timer;
+
 
   @override
   void initState() {
-    _min = DateTime.now().difference(lastCloseTime!).inMinutes ~/ 10;
-    for(int i = 0; heartCount! < 5 && i < _min; i++){
-      valuesBloc.add(AddHeartCountEvent());
-    }
-
-    timer = Timer.periodic(const Duration(minutes: 10), (Timer t) {
-      if (heartCount! < 5) {
-        valuesBloc.add(AddHeartCountEvent());
-      }
-    });
-
+    Workmanager().registerPeriodicTask("a", "b");
+    _timer = Timer.periodic(const Duration(minutes: 10), (timer) => valuesBloc.add(AddHeartCountEvent()));
     super.initState();
   }
 
+
   @override
   void dispose() {
-    valuesBloc.add(EditLastCloseTimeEvent(lastCloseTime: DateTime.now()));
-    timer.cancel();
     player.dispose();
+    _timer.cancel();
     super.dispose();
   }
 
@@ -82,7 +72,7 @@ class _HomeState extends State<Home> {
             textDirection: TextDirection.rtl,
             child: Scaffold(
               body: RefreshIndicator(
-                onRefresh: () => Future.delayed(const Duration(milliseconds: 0),
+                onRefresh: () => Future.delayed(const Duration(seconds: 0),
                     () => questionsBloc.add(FetchAllQuestionsEvent())),
                 child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
@@ -101,7 +91,7 @@ class _HomeState extends State<Home> {
                                     state.runtimeType ==
                                             ValuesFetchedSuccessfullyState
                                         ? heartCount!
-                                        : 3,
+                                        : 5,
                                     (index) => Padding(
                                           padding: EdgeInsets.only(
                                               left: size.width * 0.01,
@@ -124,7 +114,7 @@ class _HomeState extends State<Home> {
                         ),
                         SizedBox(height: size.height * 0.05),
                         Text(
-                          'إختر مستوي الاسئلة',
+                          'اختر مستوى الاسئلة',
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         SizedBox(height: size.height * 0.02),
@@ -137,17 +127,16 @@ class _HomeState extends State<Home> {
                             size, 2, 'صعب', Theme.of(context).primaryColor),
                         SizedBox(height: size.height * 0.02),
                         if (heartCount! < 5) ...[
-                          // Display timer if heart count is less than 3
+                          // Display timer if heart count is less than 5
                           const Text(
-                            'يمكنك الحصول على قلب جديد بعد 10 دقائق او ...',
+                            'يمكنك الحصول على قلب جديد كل 10 دقائق او ...',
                             style: TextStyle(fontSize: 16),
                           ),
                           SizedBox(height: size.height * 0.01),
-                        ],
-                        if(heartCount! < 5) ...[
+
                           const AdsButton(answer: 'إضـافة قلــوب'),
                           SizedBox(height: size.height * 0.05),
-                        ]
+                        ],
                       ],
                     ),
                   ),

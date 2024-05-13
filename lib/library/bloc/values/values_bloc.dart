@@ -39,7 +39,7 @@ class ValuesBloc extends Bloc<ValuesEvent, ValuesState> {
   FutureOr<void> getHeartCountEvent(
       GetHeartCountEvent event, Emitter<ValuesState> emit) async {
     emit(ValuesLoadingState());
-    heartCount = LocalManager.getHeartCount();
+    heartCount = await LocalManager.getHeartCount();
     lastCloseTime = LocalManager.getLastCloseTime();
     emit(ValuesFetchedSuccessfullyState());
   }

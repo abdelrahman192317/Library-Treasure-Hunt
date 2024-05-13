@@ -10,7 +10,7 @@ import '../../bloc/ads_bloc/ads_bloc.dart';
 import '../../bloc/questions/questions_bloc.dart';
 import '../../bloc/values/values_bloc.dart';
 import '../../core/global/global.dart';
-import '../../core/utilities/colors.dart';
+import '../../core/utils/colors.dart';
 import 'add_name.dart';
 
 class SplashScreen extends StatefulWidget {

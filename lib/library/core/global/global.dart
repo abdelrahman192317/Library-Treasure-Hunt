@@ -9,7 +9,7 @@ import '../../data/models/questions_model.dart';
 SharedPreferences? sharedPreferences;
 
 String? name;
-int? heartCount;
+int? heartCount = 5;
 
 DateTime? lastCloseTime;
 

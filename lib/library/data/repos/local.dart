@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../core/global/global.dart';
 
 class LocalManager{
@@ -12,8 +15,10 @@ class LocalManager{
   }
 
   //heartCount
-  static int? getHeartCount(){
-    return sharedPreferences!.getInt('heartCount') ?? 3;
+  static Future<int?> getHeartCount() async {
+    sharedPreferences = sharedPreferences ?? await SharedPreferences.getInstance();
+    heartCount = sharedPreferences!.getInt('heartCount') ?? 5;
+    return heartCount;
   }
   static minusHeartCount(){
     if(heartCount! > 0){

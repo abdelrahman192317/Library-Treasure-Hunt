@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/utilities/colors.dart';
+import '../../core/utils/colors.dart';
 import '../widgets/level_card.dart';
 
 class Levels extends StatelessWidget {
