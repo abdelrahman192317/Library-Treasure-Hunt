@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     valuesBloc = ValuesBloc();
     valuesBloc.add(GetNameEvent());
-    valuesBloc.add(GetHeartCountEvent());
+    valuesBloc.add(GetLastCloseTimeEvent());
 
     questionsBloc = QuestionsBloc();
     questionsBloc.add(FetchAllQuestionsEvent());

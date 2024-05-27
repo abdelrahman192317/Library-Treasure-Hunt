@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/global/global.dart';
 
@@ -14,8 +13,7 @@ class LocalManager{
   }
 
   //heartCount
-  static Future<int?> getHeartCount() async {
-    sharedPreferences = sharedPreferences ?? await SharedPreferences.getInstance();
+  static int? getHeartCount() {
     heartCount = sharedPreferences!.getInt('heartCount') ?? 5;
     return heartCount;
   }
@@ -32,12 +30,16 @@ class LocalManager{
     }
   }
 
-  static DateTime getLastCloseTime(){
-    String? ret =  sharedPreferences!.getString('lastCloseTime') ;
-    return ret == null? DateTime.now() : DateTime.parse(ret);
+  static updateLastCloseTime(){
+    sharedPreferences!.setString('lastCloseTime', DateTime.now().toIso8601String());
   }
-  static editLastCloseTime(DateTime lastCloseTime){
-    sharedPreferences!.setString('lastCloseTime', lastCloseTime.toIso8601String());
+
+  static updateHeartCountByCloseTime(){
+    String? ret =  sharedPreferences!.getString('lastCloseTime');
+    lastCloseTime = ret == null? DateTime.now() : DateTime.parse(ret);
+    int count = DateTime.now().difference(lastCloseTime!).inMinutes ~/ 10;
+    heartCount = heartCount! + count < 5? heartCount! + count : 5;
+    sharedPreferences!.setInt('heartCount', heartCount!);
   }
 
   //questions

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -73,8 +74,7 @@ class QuestionScreen extends StatelessWidget {
                       child: Card(
                         color: Colors.white,
                         child: Center(
-                          child: Text(q.question,
-                              maxLines: 3,
+                          child: AutoSizeText(q.question,
                               textAlign: TextAlign.center,
                               style: context
                                   .getThemeTextStyle()

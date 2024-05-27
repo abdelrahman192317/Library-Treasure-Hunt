@@ -9,12 +9,7 @@ class EditNameEvent extends ValuesEvent {
 }
 class GetNameEvent extends ValuesEvent {}
 
-class GetHeartCountEvent extends ValuesEvent {}
-
 class AddHeartCountEvent extends ValuesEvent {}
 class MinusHeartCountEvent extends ValuesEvent {}
 
-class EditLastCloseTimeEvent extends ValuesEvent {
-  final DateTime lastCloseTime;
-  EditLastCloseTimeEvent({required this.lastCloseTime});
-}
+class GetLastCloseTimeEvent extends ValuesEvent {}

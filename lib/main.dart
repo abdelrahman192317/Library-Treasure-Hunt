@@ -3,15 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:workmanager/workmanager.dart';
 
 import 'firebase_options.dart';
 
 import 'library/core/global/global.dart';
 import 'library/core/utils/themes.dart';
-import 'library/data/repos/local.dart';
 import 'library/presentation/screens/splash_screen.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
