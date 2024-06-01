@@ -4,8 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../../core/utils/functions.dart';
-
 import '../../bloc/questions/questions_bloc.dart';
 import '../../core/global/global.dart';
 import '../../core/utils/colors.dart';

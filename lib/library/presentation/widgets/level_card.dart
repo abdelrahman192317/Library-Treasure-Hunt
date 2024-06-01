@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:just_audio/just_audio.dart';
 
 import '../../bloc/questions/questions_bloc.dart';
-import '../../bloc/values/values_bloc.dart';
 import '../../core/global/global.dart';
 import '../screens/level_screen.dart';
 
